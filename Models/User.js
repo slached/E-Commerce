@@ -8,13 +8,14 @@ const emailRegExp = (email) => {
 
 const userSchema = new mongoose.Schema({
 
+    name: {
+        type: String, trim: true, required: true
+    },
     email: {
         type: String, trim: true, required: true, unique: true, validate: {
-            validator: emailRegExp,
-            message: "This format of email is not valid."
+            validator: emailRegExp, message: "This format of email is not valid."
         }
-    },
-    password: {type: String, trim: true, required: true}
+    }, password: {type: String, trim: true, required: true}
 
 }, {timestamps: true})
 
