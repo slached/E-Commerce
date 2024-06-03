@@ -7,7 +7,7 @@ const {isValidObjectId} = require("mongoose");
 
 const getAllUsers = async (req, res) => {
     const users = await User.find()
-    users && res.status(200).json(users)
+    users ? res.status(200).json(users) : res.status(200).json({message:"There is no any user."})
 }
 
 const register = async (req, res) => {
@@ -24,7 +24,6 @@ const register = async (req, res) => {
     })
 
 }
-
 
 const login = async (req, res) => {
 
@@ -44,7 +43,7 @@ const login = async (req, res) => {
                 if (isValidObjectId(user._id)) {
                     //this is jwt and it's expires after 12 hour
                     const jwtToken = jwt.sign({
-                        //user id as payload
+                        //user id to payload
                         id: user._id.toString()
                     }, process.env.JWT_SECRET, {expiresIn: "12h"})
 
@@ -52,13 +51,17 @@ const login = async (req, res) => {
                 }
             }
         } else {
-            res.status(200).json({message: "Password is incorrect", status: 400})
+            password === "" ? res.status(200).json({
+                message: "Please enter a password.",
+                status: 400
+            }) : res.status(200).json({message: "Password is incorrect!", status: 400})
+
         }
 
     } else {
         if (email.length === 0) {
-            res.status(200).json({message: "Please enter an email", status: 404})
-        } else res.status(200).json({message: "User could not founded.", status: 404})
+            res.status(200).json({message: "Please enter an email.", status: 404})
+        } else res.status(200).json({message: "This email does not exists.", status: 404})
     }
 }
 
@@ -83,4 +86,5 @@ const getUserMe = async (req, res) => {
     }
 
 }
+
 module.exports = {getAllUsers, register, login, logout, getUserMe}

@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const e = require("express");
 
 const emailRegExp = (email) => {
     const emailRegEx = new RegExp("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")
@@ -8,6 +7,7 @@ const emailRegExp = (email) => {
 
 const userSchema = new mongoose.Schema({
 
+    image: {data: Buffer, type: String, defaultValue: ""},
     name: {
         type: String, trim: true, required: true
     },

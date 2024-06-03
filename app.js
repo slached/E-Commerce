@@ -2,17 +2,16 @@ require('dotenv').config()
 
 const express = require('express')
 const app = express()
-const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const port = process.env.PORT || 5000
 
-mongoose.connect(process.env.MONGO_URI + process.env.COLLECTION_NAME)
-    .then(e => {
-        app.listen(port)
-        console.log(`App listening on port ${port}`)
-    })
-    .catch(err => err)
+//db connection
+const dbConnection = require('./MiddleWares/DbConnection.js')
+app.use(dbConnection)
+
+app.listen(port)
+console.log(`app listening on port ${port}`)
 
 const corsOptions = {
     credentials: true,
@@ -25,9 +24,12 @@ app.use(express.json())
 app.use(cors(corsOptions))
 app.use(cookieParser())
 
-//user router
+//router imports
 const userRouter = require('./Routers/User.js')
+const productRouter = require('./Routers/Product.js')
+const imageRouter = require('./Routers/Image.js')
 
 //router connections
 app.use(process.env.BASE_PATH, userRouter)
-
+app.use(`${process.env.BASE_PATH}/product`, productRouter)
+app.use(`${process.env.BASE_PATH}/image`, imageRouter)
