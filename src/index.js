@@ -10,9 +10,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <CookiesProvider defaultSetOptions={{path: '/'}}>
         <Provider store={store}>
-            <React.StrictMode>
-                <App/>
-            </React.StrictMode>
+            <App/>
         </Provider>
     </CookiesProvider>
 );

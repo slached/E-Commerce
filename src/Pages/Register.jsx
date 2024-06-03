@@ -1,8 +1,11 @@
 import React from 'react';
+import LoginAndRegister from "../Components/LoginAndRegister";
 
 export default function Register(props) {
     return (
-        <div>reg</div>
+        <div className={"register-page"}>
+            <LoginAndRegister type={"register"}/>
+        </div>
     );
 }
 
