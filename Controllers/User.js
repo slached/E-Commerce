@@ -46,7 +46,7 @@ const login = async (req, res) => {
                 }, process.env.JWT_SECRET, {expiresIn: "12h"})
 
                 //for test purpose
-                //res.cookie("auth", jwtToken, {maxAge: 9000000, httpOnly: true})
+                res.cookie("auth", jwtToken, {maxAge: 9000000, httpOnly: true})
 
                 res.status(200).json({message: "Login success", token: jwtToken})
             }

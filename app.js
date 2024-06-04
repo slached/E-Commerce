@@ -24,4 +24,3 @@ const userRouter = require('./Routers/User.js')
 
 //router connections
 app.use(process.env.BASE_PATH, userRouter)
-
