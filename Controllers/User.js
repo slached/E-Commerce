@@ -3,10 +3,11 @@ const User = require('../Models/User.js')
 const bcrypt = require('bcrypt')
 const salt = 10
 const jwt = require('jsonwebtoken')
+const {isValidObjectId} = require("mongoose");
 
 const getAllUsers = async (req, res) => {
     const users = await User.find()
-    users && res.status(200).json(users)
+    users ? res.status(200).json(users) : res.status(200).json({message:"There is no any user."})
 }
 
 const register = async (req, res) => {
@@ -15,15 +16,14 @@ const register = async (req, res) => {
         newUser.password = hash
         await newUser.save()
             .then(() => {
-                res.status(200).json({message: `${newUser.email} is created successfully.`})
+                res.status(200).json({message: `${newUser.email} is created successfully.`, status: 200})
             })
             .catch(err => {
-                res.status(400).json({err: err.message})
+                res.status(200).json({err: err.message, status: 400})
             })
     })
 
 }
-
 
 const login = async (req, res) => {
 
@@ -37,25 +37,31 @@ const login = async (req, res) => {
         if (comparePassword) {
             //if it is already connected
             if (req.cookies.auth) {
-                res.status(400).json({message: "You are already logged in."})
+                res.status(200).json({message: "You are already logged in.", status: 400})
             } else {
-                //this is jwt and it's expires after 12 hour
-                const jwtToken = jwt.sign({
-                    email: email,
-                    password: password
-                }, process.env.JWT_SECRET, {expiresIn: "12h"})
+                //is user has valid id
+                if (isValidObjectId(user._id)) {
+                    //this is jwt and it's expires after 12 hour
+                    const jwtToken = jwt.sign({
+                        //user id to payload
+                        id: user._id.toString()
+                    }, process.env.JWT_SECRET, {expiresIn: "12h"})
 
-                //for test purpose
-                res.cookie("auth", jwtToken, {maxAge: 9000000, httpOnly: true})
-
-                res.status(200).json({message: "Login success", token: jwtToken})
+                    res.status(200).json({message: "Login success", token: jwtToken, status: 200})
+                }
             }
         } else {
-            res.status(400).json({message: "Password is incorrect"})
+            password === "" ? res.status(200).json({
+                message: "Please enter a password.",
+                status: 400
+            }) : res.status(200).json({message: "Password is incorrect!", status: 400})
+
         }
 
     } else {
-        res.status(404).json({message: "User could not founded."})
+        if (email.length === 0) {
+            res.status(200).json({message: "Please enter an email.", status: 404})
+        } else res.status(200).json({message: "This email does not exists.", status: 404})
     }
 }
 
@@ -64,7 +70,21 @@ const logout = async (req, res) => {
         res.clearCookie("auth")
         res.status(200).json({message: "Logout successfully."})
     } else {
-        res.status(400).json({message: "You need to log in before log out."})
+        res.status(200).json({message: "You need to log in before log out.", status: 400})
     }
 }
-module.exports = {getAllUsers, register, login, logout}
+
+const getUserMe = async (req, res) => {
+    const userId = jwt.verify(req.cookies.auth, process.env.JWT_SECRET).id
+
+    try {
+        const user = await User.findById(userId)
+        res.status(200).json({user: user, status: 200})
+
+    } catch (err) {
+        res.status(200).json({err: err, status: 400})
+    }
+
+}
+
+module.exports = {getAllUsers, register, login, logout, getUserMe}

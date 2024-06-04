@@ -10,7 +10,7 @@ const IsAuthed = (req, res, next) => {
             return res.status(403).json({message: "Your token has been manipulated."})
         }
     } else {
-        return res.status(403).json({message: "You don't have authorization to get user details."})
+        return res.status(200).json({message: "You don't have authorization to get user details.", status: 403})
     }
 }
 
