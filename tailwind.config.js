@@ -8,6 +8,10 @@ module.exports = {
         './src/Pages/Register.jsx',
 
         './src/Components/LoginAndRegister.jsx',
+        './src/Components/HeaderBlackBar.jsx',
+        './src/Components/HeaderNavigator.jsx',
+
+
         './src/static/Style/Global.css',
     ],
     theme: {

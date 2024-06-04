@@ -1,13 +1,12 @@
 import React, {useState} from 'react';
 import {useCookies} from "react-cookie";
 import {baseUrl} from "../static/baseUrl";
-import shoppingCart from "../static/Images/shopping_cart.svg"
-import rightArrow from "../static/Images/button_right_arrow.svg"
+import loginRegisterImage from "../static/Images/login-register.png"
 import {Link, useNavigate} from "react-router-dom";
 
 export default function LoginAndRegister(props) {
 
-    const inputStyles = "bg-[#FFF6F4] rounded-[4px] py-[13px] pl-[10px] max-w-[1000px] w-[478px] focus:outline-[#F47458]"
+    const inputStyles = "outline-none"
     const [cookies, setCookie, removeCookie] = useCookies();
 
     const [email, setEmail] = useState("")
@@ -52,6 +51,7 @@ export default function LoginAndRegister(props) {
                         setErrorMessage("")
                         //nav
                         navigate("/")
+                        window.location.reload()
                     } else {
                         setErrorMessage(res.message)
                     }
@@ -93,61 +93,65 @@ export default function LoginAndRegister(props) {
 
     return (<div className={"font flex h-screen"}>
 
-        {props.type === "register" &&
-            <div className={"flex-grow-[4] bg-[#FFEDE1] flex justify-end items-center max-w-[600px]"}>
-                <img alt={"shop_cart"} className={"max-w-[500px] "} src={shoppingCart}></img>
-            </div>}
 
-        <div className={"flex justify-center items-center flex-grow-[6]"}>
-            <form className={"flex flex-col pl-[61px] pr-[60px] pt-[73px] pb-[92px] rounded-[20px] box-shadow "}>
-                <h2 className={"font-semibold text-[#F47458] text-[36px] mb-[60px]"}>Orange Bag</h2>
+        <div className={"flex-grow-[6] flex justify-start "}>
+            <img className={"h-[600px] min-w-[600px]"} alt={"login-register"}
+                 src={loginRegisterImage}></img>
+        </div>
 
-                {props.type === "login" ? <h1 className={"font-semibold text-[56px] mb-[30px]"}>Sign in</h1> :
-                    <h1 className={"font-semibold text-[56px] mb-[30px]"}>Sing up</h1>}
+        <div className={"flex flex-grow-[4]"}>
+            <form className={"flex flex-col pl-[61px] pr-[60px] pt-[73px] pb-[92px] grow max-w-[605px]"}>
 
-                <div className={"flex flex-col gap-y-[20px] mb-[40px]"}>
-                    {props.type === "register" && <label>
-                        <p className={"mb-[7px]"}>Name</p>
-                        <input id={"name"} value={name} onChange={onChange} placeholder={"J.R.R Tolkien"}
+                <div className={"flex flex-col gap-[24px] mb-[48px]"}>
+                    {props.type === "login" ?
+                        <h2 className={"font-semibold text-[36px] tracking-wide"}>Log in to Exclusive</h2> :
+                        <h2 className={"font-semibold text-[36px] tracking-wide"}>Create an account</h2>}
+                    <p className={"text-[16px]"}>Enter your details below</p>
+                </div>
+
+                <div className={"flex flex-col gap-y-[40px]"}>
+                    {props.type === "register" && <label className={"flex flex-col gap-[8px]"}>
+                        <input id={"name"} value={name} onChange={onChange} placeholder={"Name"}
                                type={"text"}
                                className={inputStyles}/>
+                        <hr className={"border-none h-[1px] bg-gray-400"}/>
                     </label>}
-                    <label>
-                        <p className={"mb-[7px]"}>Email</p>
-                        <input id={"email"} value={email} onChange={onChange} placeholder={"example@gmail.com"}
+                    <label className={"flex flex-col gap-[8px]"}>
+                        <input id={"email"} value={email} onChange={onChange} placeholder={"Email address"}
                                type={"email"}
                                className={inputStyles}/>
+                        <hr className={"border-none h-[1px] bg-gray-400"}/>
                     </label>
-                    <label>
-                        <div className={"flex justify-between"}>
-                            <p className={"mb-[7px]"}>Password</p>
-                            <a href={""} className={"font-light text-[14px]"}>Forgot Password?</a>
-                        </div>
+                    <label className={"flex flex-col gap-[8px] mb-[40px]"}>
                         <input id={"password"} value={password} onChange={onChange}
-                               placeholder={"*****************"} type={"password"} className={inputStyles}/>
+                               placeholder={"Password"} type={"password"} className={inputStyles}/>
+                        <hr className={"border-none h-[1px] bg-gray-400"}/>
                     </label>
-                    <p className={"text-red-500 text-sm"}>{errMessage}</p>
+
                 </div>
-                <div className={"flex flex-col items-center"}>
-                    <button
-                        onClick={() => {
-                            props.type === "login" ? login() : register()
-                        }}
-                        className={"bg-[#F47458] rounded-3xl text-white flex justify-center items-center py-[11px] w-[150px] mb-[40px]"}
-                        type={"button"}>
-                        {props.type === "login" ? <p className={"ml-[22px] mr-[18px]"}>Sign In</p> :
-                            <p className={"ml-[22px] mr-[18px]"}>Sign up</p>}
-                        <img alt={"button_right_arrow"} src={rightArrow}/>
-                    </button>
-                    {props.type === "login" && <p style={{
-                        color: "rgba(0, 0, 0, 0.2)"
-                    }}>I don’t have an account ? <Link className={"text-[#F47458]"} to={"/register"}>Sign up</Link></p>}
+                <div className={"flex flex-col"}>
+                    <div className={"flex justify-between mb-[30px] items-center"}>
+                        <button
+                            onClick={() => {
+                                props.type === "login" ? login() : register()
+                            }}
+                            style={props.type === "register" ? {flexGrow: 1} : null}
+                            className={`bg-red-600 px-[38px] py-[16px] rounded-[4px] min-w-[170px]`}
+                            type={"button"}>
+                            {props.type === "login" ? <p className={"ml-[22px] mr-[18px] text-white"}>Log In</p> :
+                                <p className={"ml-[22px] mr-[18px] text-white"}>Create account</p>}
+                        </button>
+                        {props.type === "login" && <a href={""} className={"text-red-500"}>Forget Password?</a>}
+                    </div>
+                    <p className={"mb-[10px] text-red-500"}>{errMessage}</p>
+                    {props.type === "login" ? <p className={"text-start"}>I don’t have an account?<Link
+                            className={"underline underline-offset-8 ml-[16px]"} to={"/register"}>Create account</Link>
+                        </p> :
+                        <p className={"text-start"}>Already have account?<Link
+                            className={"underline underline-offset-8 ml-[16px]"} to={"/login"}>Log in</Link></p>}
                 </div>
             </form>
         </div>
-        {props.type === "login" &&
-            <div className={"flex-grow-[4] bg-[#FFEDE1] flex justify-end items-center max-w-[600px]"}>
-                <img alt={"shop_cart"} className={"max-w-[500px] "} src={shoppingCart}></img>
-            </div>}
+
     </div>);
 }

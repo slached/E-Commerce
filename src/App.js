@@ -1,15 +1,19 @@
 import React from 'react';
 import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider} from "react-router-dom";
-import Master from "./Layouts/Master";
-import Home, {homeLoader} from "./Pages/Home";
+import Master, {isAuthLoader} from "./Layouts/Master";
+import Home from "./Pages/Home";
 import Register from "./Pages/Register";
 import Login from "./Pages/Login";
+import Contact from "./Pages/Contact";
+import About from "./Pages/About";
 
 const router = createBrowserRouter(createRoutesFromElements(
-    <Route element={<Master/>}>
-        <Route index element={<Home/>} loader={homeLoader}>
+    <Route loader={isAuthLoader} element={<Master/>}>
+        <Route index element={<Home/>}>
 
         </Route>
+        <Route path="contact" element={<Contact/>}/>
+        <Route path="about" element={<About/>}/>
         <Route path="login" element={<Login/>}/>
         <Route path="register" element={<Register/>}/>
     </Route>
