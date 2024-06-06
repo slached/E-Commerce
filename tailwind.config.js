@@ -1,22 +1,15 @@
+const {nextui} = require("@nextui-org/react");
+
 module.exports = {
     content: [
-        //"./src/**/*.{html,js}"
-        './src/Layouts/Master.jsx',
-        './src/Layouts/Header.jsx',
-
-        './src/Pages/Login.jsx',
-        './src/Pages/Register.jsx',
-
-        './src/Components/LoginAndRegister.jsx',
-        './src/Components/HeaderBlackBar.jsx',
-        './src/Components/HeaderNavigator.jsx',
-
-
-        './src/static/Style/Global.css',
+        "./src/**/*.{html,js,jsx}",
+        "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
     ],
     theme: {
         extend: {},
     },
-    plugins: [],
+    plugins: [nextui({
+        addCommonColors: true,
+    })],
 }
 

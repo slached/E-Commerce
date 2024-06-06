@@ -53,6 +53,7 @@ export default function LoginAndRegister(props) {
                         navigate("/")
                         window.location.reload()
                     } else {
+                        setPassword("")
                         setErrorMessage(res.message)
                     }
                 })

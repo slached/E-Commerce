@@ -13,3 +13,10 @@
 .box-shadow {
     box-shadow: 0 15px 2rem rgba(0, 0, 0, 0.13);
 }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}

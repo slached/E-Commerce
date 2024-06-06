@@ -12,7 +12,7 @@ export default function Home(props) {
         headers: {Cookie: document.cookie}
     }
 
-//this useEffect is for get all productAndImage
+    //this useEffect is getting all productAndImages
     useEffect(() => {
         //first fetch goes and get all productAndImage
         fetch(`${baseUrl}/product/getAll`, fetchObject)
@@ -37,12 +37,7 @@ export default function Home(props) {
 
     return (
         <div>
-            {productAndImage.map(item => {
-                return (<div>
-                    <img height={"100px"} width={"100px"} alt={"product_img"} src={item.image.dataUrl}/>
-                    <p>{item.product.name}</p>
-                </div>)
-            })}
+
         </div>
     );
 }

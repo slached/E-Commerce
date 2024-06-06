@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import SearchBar from "./SearchBar";
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useSearchParams} from "react-router-dom";
+import UserDetails from "./UserDetails";
 
 export default function HeaderNavigator(props) {
 
     const location = useLocation()
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const [selectedField, setSelectedField] = useState("");
     const navFields = [
@@ -20,15 +22,9 @@ export default function HeaderNavigator(props) {
         else setSelectedField(location.pathname.substring(1))
     }, [])
 
-    const setNavField = (tag) => {
-        setSelectedField(tag)
-    }
 
-    useEffect(() => {
-        console.log(selectedField)
-    }, [selectedField]);
     return (<div className={"flex justify-between px-[135px] pt-[38px] pb-[16px]"}>
-            <h3 className={"font-bold text-[24px]"}>Exclusive</h3>
+            <Link reloadDocument to={"/"}><h3 className={"font-bold text-[24px]"}>Exclusive</h3></Link>
 
             <div className={"flex gap-[48px]"}>
                 {navFields.map((field, i) => {
@@ -37,11 +33,14 @@ export default function HeaderNavigator(props) {
                         //this if prevent render sign up navigation from header if any user already logged in
                         return null
                     } else {
-                        return <Link onClick={() => setNavField(field.tag.toLowerCase())}
+                        return <Link key={i} onClick={() => setSelectedField(field.tag.toLowerCase())}
                                      style={selectedField === field.tag.toLowerCase() ? {
                                          textDecoration: "underline",
-                                         textUnderlineOffset: "8px"
-                                     } : null} to={field.ref}>{field.tag}</Link>
+                                         textUnderlineOffset: "4px"
+                                     } : null} to={{
+                            pathname: field.ref,
+                            search: searchParams.get("language") && `?language=${searchParams.get("language")}`
+                        }}>{field.tag}</Link>
                     }
 
                 })}
@@ -49,7 +48,7 @@ export default function HeaderNavigator(props) {
 
             <SearchBar/>
 
-            {props.isUserAuthed && <p className={"cursor-pointer"} onClick={() => props.logout()}>Logout</p>}
+            {props.isUserAuthed && <UserDetails isUserAuthed={props.isUserAuthed} logout={props.logout}/>}
         </div>
     );
 }
