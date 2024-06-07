@@ -11,19 +11,19 @@ const createImage = async (req, res) => {
         const img = fs.readFileSync(req.file.path);
         const encode_image = img.toString('base64');
 
+
         const finalImg = {
             name: req.file.originalname,
-            contentType: req.file.mimeType,
+            contentType: req.file.mimetype,
             path: req.file.path,
             image: encode_image,
         };
 
         const image = new Image(finalImg)
-
         await image.save()
         res.status(200).json({message: "Image uploaded successfully", status: 400})
     } catch (err) {
-        res.status(200).json({message: "You need to select a file.", status: 400})
+        res.status(200).json({message: err._message, status: 400})
     }
 }
 

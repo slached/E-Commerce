@@ -75,9 +75,9 @@ const logout = async (req, res) => {
 }
 
 const getUserMe = async (req, res) => {
-    const userId = jwt.verify(req.cookies.auth, process.env.JWT_SECRET).id
 
     try {
+        const userId = jwt.verify(req.cookies.auth, process.env.JWT_SECRET).id
         const user = await User.findById(userId)
         res.status(200).json({user: user, status: 200})
 
