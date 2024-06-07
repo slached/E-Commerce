@@ -22,7 +22,7 @@ export default function UserDetails(props) {
                     <Avatar
                         isBordered={false}
                         as="button"
-                        className="transition-transform"
+                        className="transition-transform min-w-[40px]"
                         src={UserIcon}
                     />
                 </DropdownTrigger>

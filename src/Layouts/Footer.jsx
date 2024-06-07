@@ -11,8 +11,8 @@ import LinkedInIcon from '../static/Images/Icon-Linkedin.svg'
 
 export default function Footer(props) {
     return (
-        <footer>
-            <div className={"flex bg-black px-[135px] text-white pt-[80px] justify-center gap-[85px] pb-[60px]"}>
+        <footer className={"flex flex-col bg-black"}>
+            <div className={"flex px-[135px] text-white pt-[80px] gap-[85px] pb-[60px] mt-[50px] justify-center"}>
                 <div className={"flex flex-col"}>
                     <h3 className={"text-[24px] mb-[24px] font-bold"}>Exclusive</h3>
                     <h2 className={"text-[20px] mb-[16px]"}>Subscribe</h2>
@@ -58,7 +58,7 @@ export default function Footer(props) {
                 </div>
             </div>
             <div className={"border-none h-[1px] bg-gray-800"}></div>
-            <p className={"bg-black text-gray-500 text-center pt-[16px] pb-[24px]"}>&copy; Copyright Sl4ched 2024. All right reserved</p>
+            <p className={"text-gray-500 text-center pt-[16px] pb-[24px]"}>&copy; Copyright Sl4ched 2024. All right reserved</p>
         </footer>
 
     );

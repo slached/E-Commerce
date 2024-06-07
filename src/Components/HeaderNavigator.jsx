@@ -23,33 +23,34 @@ export default function HeaderNavigator(props) {
     }, [])
 
 
-    return (<div className={"flex justify-between px-[135px] pt-[38px] pb-[16px]"}>
-            <Link reloadDocument to={"/"}><h3 className={"font-bold text-[24px]"}>Exclusive</h3></Link>
+    return (
+            <div className={"flex justify-center px-[135px] pt-[38px] pb-[16px] gap-[70px]"}>
+                <Link reloadDocument to={"/"}><h3 className={"font-bold text-[24px]"}>Exclusive</h3></Link>
 
-            <div className={"flex gap-[48px]"}>
-                {navFields.map((field, i) => {
+                <div className={"flex gap-[48px]"}>
+                    {navFields.map((field, i) => {
 
-                    if (props.isUserAuthed && field.tag === "Sign Up") {
-                        //this if prevent render sign up navigation from header if any user already logged in
-                        return null
-                    } else {
-                        return <Link key={i} onClick={() => setSelectedField(field.tag.toLowerCase())}
-                                     style={selectedField === field.tag.toLowerCase() ? {
-                                         textDecoration: "underline",
-                                         textUnderlineOffset: "4px"
-                                     } : null} to={{
-                            pathname: field.ref,
-                            search: searchParams.get("language") && `?language=${searchParams.get("language")}`
-                        }}>{field.tag}</Link>
-                    }
+                        if (props.isUserAuthed && field.tag === "Sign Up") {
+                            //this if prevent render sign up navigation from header if any user already logged in
+                            return null
+                        } else {
+                            return <Link key={i} onClick={() => setSelectedField(field.tag.toLowerCase())}
+                                         style={selectedField === field.tag.toLowerCase() ? {
+                                             textDecoration: "underline",
+                                             textUnderlineOffset: "4px"
+                                         } : null} to={{
+                                pathname: field.ref,
+                                search: searchParams.get("language") && `?language=${searchParams.get("language")}`
+                            }}>{field.tag}</Link>
+                        }
 
-                })}
+                    })}
+                </div>
+
+                <SearchBar/>
+
+                {props.isUserAuthed && <UserDetails isUserAuthed={props.isUserAuthed} logout={props.logout}/>}
             </div>
-
-            <SearchBar/>
-
-            {props.isUserAuthed && <UserDetails isUserAuthed={props.isUserAuthed} logout={props.logout}/>}
-        </div>
     );
 }
 

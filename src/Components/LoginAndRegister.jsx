@@ -92,8 +92,7 @@ export default function LoginAndRegister(props) {
         }
     }
 
-    return (<div className={"font flex h-screen"}>
-
+    return (<div className={"font flex mt-[60px] mb-[50px]"}>
 
         <div className={"flex-grow-[6] flex justify-start "}>
             <img className={"h-[600px] min-w-[600px]"} alt={"login-register"}

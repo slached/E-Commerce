@@ -19,7 +19,7 @@ export default function Header(props) {
             .catch(err => err)
     }
 
-    return (<header className="flex flex-col mb-[60px]">
+    return (<header className="flex flex-col">
         <HeaderBlackBar/>
         <HeaderNavigator logout={logout} isUserAuthed={props.isUserAuthed}/>
         <hr className="border-none bg-gray-200 h-[1px]"/>

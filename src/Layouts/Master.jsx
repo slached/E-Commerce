@@ -11,7 +11,7 @@ export default function Master(props) {
 
     return (<div className={"font"}>
         <Header isUserAuthed={isUserAuthed}/>
-        <main className={"h-screen"}>
+        <main>
             <Outlet/>
         </main>
         <Footer/>

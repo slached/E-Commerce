@@ -1,8 +1,8 @@
 import {configureStore} from '@reduxjs/toolkit'
-import GlobalReducer from "./GlobalSlice";
+import ProductReducer from "./ProductSlice";
 
 export const store = configureStore({
     reducer: {
-        globalReducer: GlobalReducer
+        productReducer: ProductReducer
     },
 })

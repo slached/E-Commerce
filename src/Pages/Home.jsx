@@ -1,44 +1,26 @@
 import React, {useEffect, useState} from 'react';
 import {baseUrl} from "../static/baseUrl";
 import {useNavigate} from "react-router-dom";
+import UpperHomePage from "../Components/UpperHomePage";
+import FlashSales from "../Components/FlashSales";
+import {useDispatch} from "react-redux";
+import {getProductAndImage} from "../redux/ProductSlice";
 
 export default function Home(props) {
 
-    const navigate = useNavigate()
-    const [productAndImage, setProductAndImage] = useState([])
-
-    const fetchObject = {
-        credentials: "include",
-        headers: {Cookie: document.cookie}
-    }
-
+    const dispatch = useDispatch()
     //this useEffect is getting all productAndImages
     useEffect(() => {
-        //first fetch goes and get all productAndImage
-        fetch(`${baseUrl}/product/getAll`, fetchObject)
-            .then(res => res.json())
-            .then(res => {
-                //this foreach goes for all productAndImage and get image object of each product
-                res.products.forEach(product => {
-                    fetch(`${baseUrl}/image/getImageURI/${product.imageId}`, fetchObject)
-                        .then(res => res.json())
-                        .then(imageOfProduct => {
-                            const productObjectWithImage = {
-                                image: imageOfProduct,
-                                product: product
-                            }
-                            setProductAndImage(oldProductsArr => [...oldProductsArr, productObjectWithImage])
-                        })
-                        .catch(err => err)
-                })
+        dispatch(getProductAndImage({
+            credentials: "include", headers: {Cookie: document.cookie}
+        }))
 
-            })
     }, []);
 
-    return (
-        <div>
 
-        </div>
-    );
+    return (<div className={"flex flex-col pl-[135px]"}>
+        <UpperHomePage/>
+        <FlashSales/>
+    </div>);
 }
 
