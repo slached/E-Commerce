@@ -7,5 +7,5 @@ here's all technologies that i using;
 - React Router
 - Redux Toolkit
 - Tailwind
-- MaterialUI
+- NextUI
 On dev...
