@@ -5,6 +5,7 @@ const productController = require('../Controllers/Product.js')
 const authMiddleware = require('../MiddleWares/Auth.js')
 
 router.get('/getAll', productController.getAllProducts)
+router.get('/getOne/:id', productController.getOneProduct)
 
 router.delete('/delete/:id', productController.deleteProduct)
 

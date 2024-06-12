@@ -28,8 +28,10 @@ app.use(cookieParser())
 const userRouter = require('./Routers/User.js')
 const productRouter = require('./Routers/Product.js')
 const imageRouter = require('./Routers/Image.js')
+const cartRouter = require('./Routers/Cart.js')
 
 //router connections
 app.use(process.env.BASE_PATH, userRouter)
+app.use(`${process.env.BASE_PATH}/cart`, cartRouter)
 app.use(`${process.env.BASE_PATH}/product`, productRouter)
 app.use(`${process.env.BASE_PATH}/image`, imageRouter)

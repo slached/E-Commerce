@@ -17,7 +17,9 @@ const createImage = async (req, res) => {
             contentType: req.file.mimetype,
             path: req.file.path,
             image: encode_image,
+            url: `data:${req.file.mimetype};base64,${encode_image}`
         };
+
 
         const image = new Image(finalImg)
         await image.save()
@@ -50,7 +52,16 @@ const getAllImages = async (req, res) => {
 
     try {
         const images = await Image.find()
-        res.status(200).json({data: images, status: 200})
+
+        const returnObj = images.map(image => {
+            return {
+                url: image.url,
+                _id: image._id,
+                name: image.name,
+            }
+        })
+
+        res.status(200).json({data: returnObj, status: 200})
     } catch (err) {
         res.status(400).json({message: err.message, status: 400})
     }

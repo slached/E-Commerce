@@ -7,6 +7,7 @@ const ImageSchema = new mongoose.Schema({
     contentType: {type: String, required: true},
     path: {type: String, required: true},
     image: {type: String, required: true, unique: true},
+    url: {type: String, required: true, trim: true, default: null},
 
 })
 

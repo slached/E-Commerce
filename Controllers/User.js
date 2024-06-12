@@ -1,5 +1,6 @@
 const User = require('../Models/User.js')
-
+const Product = require('../Models/Product.js')
+const Image = require('../Models/Image.js')
 const bcrypt = require('bcrypt')
 const salt = 10
 const jwt = require('jsonwebtoken')
@@ -7,7 +8,7 @@ const {isValidObjectId} = require("mongoose");
 
 const getAllUsers = async (req, res) => {
     const users = await User.find()
-    users ? res.status(200).json(users) : res.status(200).json({message:"There is no any user."})
+    users ? res.status(200).json(users) : res.status(200).json({message: "There is no any user."})
 }
 
 const register = async (req, res) => {
@@ -52,8 +53,7 @@ const login = async (req, res) => {
             }
         } else {
             password === "" ? res.status(200).json({
-                message: "Please enter a password.",
-                status: 400
+                message: "Please enter a password.", status: 400
             }) : res.status(200).json({message: "Password is incorrect!", status: 400})
 
         }
@@ -86,5 +86,6 @@ const getUserMe = async (req, res) => {
     }
 
 }
+
 
 module.exports = {getAllUsers, register, login, logout, getUserMe}

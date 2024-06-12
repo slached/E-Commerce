@@ -15,8 +15,10 @@ const userSchema = new mongoose.Schema({
         type: String, trim: true, required: true, unique: true, validate: {
             validator: emailRegExp, message: "This format of email is not valid."
         }
-    }, password: {type: String, trim: true, required: true},
-    wishList: {type: Array, required: false}
+    },
+    password: {type: String, trim: true, required: true},
+    wishList: {type: Array, required: false, default: []},
+    cart: {type: Array, required: false, default: []},
 
 }, {timestamps: true})
 
