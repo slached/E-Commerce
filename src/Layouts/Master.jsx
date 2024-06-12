@@ -1,18 +1,29 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import '../static/Style/Global.css'
 import Header from "./Header";
 import Footer from "./Footer";
-import {Outlet, useLoaderData} from "react-router-dom";
+import {Outlet, useLoaderData, useOutletContext} from "react-router-dom";
 import {baseUrl} from "../static/baseUrl";
+import {useDispatch} from "react-redux";
+import {getCartItems} from "../redux/UserSlice";
+import {getProductAndImage} from "../redux/ProductSlice";
 
-export default function Master(props) {
+export default function Master() {
+
+    const dispatch = useDispatch()
+
+    //this useEffect is runs backend services
+    useEffect(() => {
+        dispatch(getCartItems({credentials: "include", headers: {Cookie: document.cookie}}))
+        dispatch(getProductAndImage({credentials: "include", headers: {Cookie: document.cookie}}))
+    }, []);
 
     const isUserAuthed = useLoaderData()
 
     return (<div className={"font"}>
         <Header isUserAuthed={isUserAuthed}/>
         <main>
-            <Outlet/>
+            <Outlet context={isUserAuthed}/>
         </main>
         <Footer/>
     </div>);

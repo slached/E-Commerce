@@ -1,9 +1,12 @@
 import React from 'react';
 import Countdown from 'react-countdown';
-import Semicolon from '../static/Images/Semiclone.svg'
-import RightButton from '../static/Images/Fill with Right Arrow.svg'
-import LeftButton from '../static/Images/Fill With Left Arrow.svg'
+import Semicolon from '../../static/Images/Semiclone.svg'
+
 import FlashSaleItems from "./FlashSaleItems";
+import {useSelector} from "react-redux";
+import Button from "../Button";
+import RedHeader from "../RedHeader";
+import RightAndLeftSwiperArrows from "../RightAndLeftSwiperArrows";
 
 export default function FlashSales(props) {
 
@@ -40,23 +43,24 @@ export default function FlashSales(props) {
         </div>
     };
 
+
     return (
-        <div className={"flex flex-col gap-[33px]"}>
-            <div className={"flex gap-[10px] items-center"}>
-                <div className={"bg-[#DB4444] rounded-[4px] w-[20px] h-[40px]"}></div>
-                <p className={"text-[#DB4444] font-semibold"}>Today's</p>
-            </div>
-            <div className={"flex justify-between"}>
-                <div className={"flex items-end"}>
-                    <h2 className={"text-[36px] font-semibold mr-[86px]"}>Flash Sales</h2>
-                    <Countdown renderer={renderer} date={Date.now() + 3 * 24 * 1000 * 3600}/>
+        <div className={"flex justify-center"}>
+            <div className={"flex flex-col gap-[33px] max-w-[1300px]"}>
+                <RedHeader text={"Today's"}/>
+                <div className={"flex justify-between mr-[150px]"}>
+                    <div className={"flex items-end"}>
+                        <h2 className={"text-[36px] font-semibold mr-[89px]"}>Flash Sales</h2>
+                        <Countdown renderer={renderer} date={Date.now() + 3 * 24 * 1000 * 3600}/>
+                    </div>
+                    <RightAndLeftSwiperArrows/>
                 </div>
-                <div className={"flex gap-[12px] mr-[100px] mb-[30px]"}>
-                    <img height={"46px"} width={"46px"} alt={"left button"} src={LeftButton}/>
-                    <img height={"46px"} width={"46px"} alt={"right button"} src={RightButton}/>
+                <FlashSaleItems isUserAuthed={props.isUserAuthed}/>
+                <div className={"flex justify-center mb-[60px] mr-[100px]"}>
+                    <Button text={"View All Products"}/>
                 </div>
+                <div className={"border-none p-0 bg-gray-300 h-[1px] mb-[80px] mr-[130px]"}></div>
             </div>
-            <FlashSaleItems/>
         </div>
     );
 }

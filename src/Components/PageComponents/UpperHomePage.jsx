@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
-import RightArrow from '../static/Images/menu-dropdown-arrow.svg'
+import RightArrow from '../../static/Images/menu-dropdown-arrow.svg'
 import {Swiper, SwiperSlide} from 'swiper/react';
 
 import 'swiper/css';
-import IphoneSwiperImage from '../static/Images/SwiperImages/iphoneImage.svg'
-import JBLSpeaker from '../static/Images/SwiperImages/jblSpeaker.svg'
+import IphoneSwiperImage from '../../static/Images/SwiperImages/iphoneImage.svg'
+import JBLSpeaker from '../../static/Images/SwiperImages/jblSpeaker.svg'
 
-import DeactivePoint from '../static/Images/SwiperImages/swiperPointDeactive.svg'
-import ActivePoint from '../static/Images/SwiperImages/swiperPointActive.svg'
+import DeactivePoint from '../../static/Images/SwiperImages/swiperPointDeactive.svg'
+import ActivePoint from '../../static/Images/SwiperImages/swiperPointActive.svg'
 import {Link} from "react-router-dom";
 
 export default function UpperHomePage(props) {
@@ -20,7 +20,7 @@ export default function UpperHomePage(props) {
     ]
 
     return (
-        <div className={"flex justify-center mb-[140px]"}>
+        <div className={"flex justify-center mb-[140px] mr-[100px]"}>
             <div className={"flex flex-col gap-[16px] mt-[40px] mr-[16px]"}>
                 <div className={"flex justify-between gap-[51px]"}>
                     <p>Woman’s Fashion</p>

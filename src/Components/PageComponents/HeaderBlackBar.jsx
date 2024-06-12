@@ -1,6 +1,6 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, Image} from "@nextui-org/react";
-import DropdownImg from '../static/Images/lang-dropdown-arrow.svg'
+import DropdownImg from '../../static/Images/lang-dropdown-arrow.svg'
 import {useLocation, useNavigate, useSearchParams} from "react-router-dom";
 
 export default function HeaderBlackBar(props) {

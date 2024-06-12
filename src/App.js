@@ -6,12 +6,12 @@ import Register from "./Pages/Register";
 import Login from "./Pages/Login";
 import Contact from "./Pages/Contact";
 import About from "./Pages/About";
+import Cart from "./Pages/Cart";
 
 const router = createBrowserRouter(createRoutesFromElements(
     <Route loader={isAuthLoader} element={<Master/>}>
-        <Route index element={<Home/>}>
-
-        </Route>
+        <Route index element={<Home/>}/>
+        <Route path="cart" element={<Cart/>}/>
         <Route path="contact" element={<Contact/>}/>
         <Route path="about" element={<About/>}/>
         <Route path="login" element={<Login/>}/>

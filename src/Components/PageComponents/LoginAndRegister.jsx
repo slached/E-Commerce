@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useCookies} from "react-cookie";
-import {baseUrl} from "../static/baseUrl";
-import loginRegisterImage from "../static/Images/login-register.png"
+import {baseUrl} from "../../static/baseUrl";
+import loginRegisterImage from "../../static/Images/login-register.png"
 import {Link, useNavigate} from "react-router-dom";
 
 export default function LoginAndRegister(props) {
@@ -144,11 +144,17 @@ export default function LoginAndRegister(props) {
                         {props.type === "login" && <a href={""} className={"text-red-500"}>Forget Password?</a>}
                     </div>
                     <p className={"mb-[10px] text-red-500"}>{errMessage}</p>
-                    {props.type === "login" ? <p className={"text-start"}>I don’t have an account?<Link
-                            className={"underline underline-offset-8 ml-[16px]"} to={"/register"}>Create account</Link>
+                    {props.type === "login" ?
+                        <p className={"text-start"}>I don’t have an account?
+                            <Link reloadDocument className={"underline underline-offset-8 ml-[16px]"} to={"/register"}>
+                                Create account
+                            </Link>
                         </p> :
-                        <p className={"text-start"}>Already have account?<Link
-                            className={"underline underline-offset-8 ml-[16px]"} to={"/login"}>Log in</Link></p>}
+                        <p className={"text-start"}>Already have account?
+                            <Link reloadDocument className={"underline underline-offset-8 ml-[16px]"} to={"/login"}>
+                                Log in
+                            </Link>
+                        </p>}
                 </div>
             </form>
         </div>

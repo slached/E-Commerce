@@ -1,26 +1,15 @@
-import React, {useEffect, useState} from 'react';
-import {baseUrl} from "../static/baseUrl";
-import {useNavigate} from "react-router-dom";
-import UpperHomePage from "../Components/UpperHomePage";
-import FlashSales from "../Components/FlashSales";
-import {useDispatch} from "react-redux";
-import {getProductAndImage} from "../redux/ProductSlice";
+import React from 'react';
+import UpperHomePage from "../Components/PageComponents/UpperHomePage";
+import FlashSales from "../Components/PageComponents/FlashSales";
+import {useOutletContext} from "react-router-dom";
 
-export default function Home(props) {
+export default function Home() {
 
-    const dispatch = useDispatch()
-    //this useEffect is getting all productAndImages
-    useEffect(() => {
-        dispatch(getProductAndImage({
-            credentials: "include", headers: {Cookie: document.cookie}
-        }))
-
-    }, []);
-
+    const isUserAuthed = useOutletContext()
 
     return (<div className={"flex flex-col pl-[135px]"}>
         <UpperHomePage/>
-        <FlashSales/>
+        <FlashSales isUserAuthed={isUserAuthed}/>
     </div>);
 }
 
