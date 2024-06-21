@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {BreadcrumbItem, Breadcrumbs} from "@nextui-org/react";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate, useSearchParams} from "react-router-dom";
 
 export default function BreadCrumb(props) {
 
     const _ = require('lodash')
     const navigator = useNavigate()
     const location = useLocation()
-
+    const [searchParams, setSearchParams] = useSearchParams();
     const [breadCrumbItems, setBreadCrumbItems] = useState([])
     useEffect(() => {
         const items = location.pathname.split("/").map(value => {
@@ -28,12 +28,30 @@ export default function BreadCrumb(props) {
                 separator: "px-2"
             }}
         >
-            {breadCrumbItems.map(value => <BreadcrumbItem onPress={() => {
+            {breadCrumbItems.map(value => {
 
-                navigator(value.ref)
-                window.location.reload()
+                if (value.tag !== "Home") {
+                    return <BreadcrumbItem onPress={() => {
+                        navigator({
+                            pathname: `/${value.ref}`,
+                            search: searchParams.get("language") && `?language=${searchParams.get("language")}`
+                        })
+                        window.location.reload()
+                    }}>{value.tag}
+                    </BreadcrumbItem>
+                }else {
+                    return <BreadcrumbItem onPress={() => {
+                        navigator({
+                            pathname: `${value.ref}`,
+                            search: searchParams.get("language") && `?language=${searchParams.get("language")}`
+                        })
+                        window.location.reload()
+                    }}>{value.tag}
+                    </BreadcrumbItem>
+                }
 
-            }}>{value.tag}</BreadcrumbItem>)}
+
+            })}
         </Breadcrumbs>
     );
 }

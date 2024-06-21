@@ -1,5 +1,5 @@
 import React from 'react';
-import LoginAndRegister from "../Components/PageComponents/LoginAndRegister";
+import LoginAndRegister from "../Components/LoginAndRegister";
 
 export default function Register(props) {
     return (

@@ -1,8 +1,9 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
-import {findAllProductAndImage} from '../Services/ProductServices.js'
+import {findAllProductAndImage, findAllProductAndImageWishlist} from '../Services/ProductServices.js'
 
 const initialState = {
     productAndImage: [],
+    productAndImageWishlist: [],
     discountedProducts: [],
 
     loading: false,
@@ -13,6 +14,9 @@ export const getProductAndImage = createAsyncThunk("getProductAndImage", (reques
     return findAllProductAndImage(requestParams)
 })
 
+export const getProductAndImageWishlist = createAsyncThunk("getProductAndImageWishlist", (requestParams) => {
+    return findAllProductAndImageWishlist(requestParams)
+})
 export const productSlice = createSlice({
     name: 'product',
     initialState,
@@ -32,7 +36,19 @@ export const productSlice = createSlice({
             state.error = action.payload
         })
 
-
+        //this reducer is fetching all products and images from db for wishlist
+        builder.addCase(getProductAndImageWishlist.pending, (state) => {
+            state.loading = true
+            state.error = []
+        })
+        builder.addCase(getProductAndImageWishlist.fulfilled, (state, action) => {
+            state.loading = false
+            state.productAndImageWishlist = action.payload
+        })
+        builder.addCase(getProductAndImageWishlist.rejected, (state, action) => {
+            state.loading = false
+            state.error = action.payload
+        })
     }
 })
 

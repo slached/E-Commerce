@@ -19,7 +19,7 @@ export const findAllProductAndImage = (fetchObject) => {
                 fetch(`${baseUrl}/image/getImageURI/${product.imageId}`, fetchObject)
                     .then(res => res.json())
                     .then(imageOfProduct => {
-                        resolve({image: imageOfProduct, product: product})
+                        resolve({image: imageOfProduct.dataUrl, product: product})
                     })
                     .catch(err => {
                         reject(err)
@@ -37,5 +37,46 @@ export const findAllProductAndImage = (fetchObject) => {
     })
 
 }
+export const findAllProductAndImageWishlist = (fetchObject) => {
 
+    return new Promise(async (resolve, reject) => {
+        await fetch(`${baseUrl}/wishlist/getDetailed`, fetchObject)
+            .then(res => res.json())
+            .then(res => {
+                res.status === 200 ? resolve(res.wishlist) : reject("Error")
+            })
+            .catch(err => reject(err))
+    })
+}
 
+export const deleteFromWishlist = (fetchObject) => {
+
+    return new Promise(async (resolve, reject) => {
+        await fetch(`${baseUrl}/wishlist/delete/${fetchObject.id}`, {
+            method: fetchObject.method,
+            credentials: fetchObject.credentials,
+            headers: fetchObject.headers
+        })
+            .then(res => res.json())
+            .then(res => {
+                res.status === 200 ? resolve(res.wishlist) : reject("Error")
+            })
+            .catch(err => reject(err))
+    })
+}
+
+export const transferIntoCart = (fetchObject) => {
+
+    return new Promise(async (resolve, reject) => {
+        await fetch(`${baseUrl}/wishlist/toCart`, {
+            method: fetchObject.method,
+            credentials: fetchObject.credentials,
+            headers: fetchObject.headers
+        })
+            .then(res => res.json())
+            .then(res => {
+                res.status === 200 ? resolve(res.wishlist) : reject("Error")
+            })
+            .catch(err => reject(err))
+    })
+}

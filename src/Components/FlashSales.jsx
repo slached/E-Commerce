@@ -1,14 +1,16 @@
 import React from 'react';
 import Countdown from 'react-countdown';
-import Semicolon from '../../static/Images/Semiclone.svg'
+import Semicolon from '../static/Images/semiclone.svg'
 
 import FlashSaleItems from "./FlashSaleItems";
+import Button from "./Button";
+import RedHeader from "./RedHeader";
+import RightAndLeftSwiperArrows from "./RightAndLeftSwiperArrows";
 import {useSelector} from "react-redux";
-import Button from "../Button";
-import RedHeader from "../RedHeader";
-import RightAndLeftSwiperArrows from "../RightAndLeftSwiperArrows";
 
 export default function FlashSales(props) {
+
+    const {flashSaleSwiper} = useSelector(selector => selector.swiperReducer);
 
     const renderer = ({days, hours, minutes, seconds, completed}) => {
         // Render a countdown
@@ -53,7 +55,7 @@ export default function FlashSales(props) {
                         <h2 className={"text-[36px] font-semibold mr-[89px]"}>Flash Sales</h2>
                         <Countdown renderer={renderer} date={Date.now() + 3 * 24 * 1000 * 3600}/>
                     </div>
-                    <RightAndLeftSwiperArrows/>
+                    <RightAndLeftSwiperArrows swiper={flashSaleSwiper}/>
                 </div>
                 <FlashSaleItems isUserAuthed={props.isUserAuthed}/>
                 <div className={"flex justify-center mb-[60px] mr-[100px]"}>

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useCookies} from "react-cookie";
-import {baseUrl} from "../../static/baseUrl";
-import loginRegisterImage from "../../static/Images/login-register.png"
+import {baseUrl} from "../static/baseUrl";
+import loginRegisterImage from "../static/Images/login-register.png"
 import {Link, useNavigate} from "react-router-dom";
 
 export default function LoginAndRegister(props) {

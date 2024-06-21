@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import UpArrow from '../static/Images/upArrow.svg'
-import DownArrow from '../static/Images/downArrow.svg'
+import UpArrow from '../static/Images/up-arrow.svg'
+import DownArrow from '../static/Images/down-arrow.svg'
 import {baseUrl} from "../static/baseUrl";
 import {useDispatch} from "react-redux";
 import {getCartItems} from "../redux/UserSlice";
@@ -12,7 +12,13 @@ export default function QuantityInputField(props) {
     const [value, setValue] = useState(props.quantity)
 
     const changeInput = (e) => {
-        e.target.value.length < 3 && setValue(parseInt(e.target.value))
+        if (e.target.value.length < 3) {
+            if (parseInt(e.target.value) === 0) {
+                setValue(1)
+            } else {
+                setValue(parseInt(e.target.value))
+            }
+        }
         e.target.value === "" && setValue(0)
     }
 
@@ -58,7 +64,7 @@ export default function QuantityInputField(props) {
                 <img onClick={() => {
                     setValue(prevValue => {
                         if (prevValue - 1 > 0) return prevValue - 1
-                        else return 0
+                        else return 1
                     })
                 }} className={"w-[10px] cursor-pointer"} alt={"down arrow"} src={DownArrow}/>
             </div>

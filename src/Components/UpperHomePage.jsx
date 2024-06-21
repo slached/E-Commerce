@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
-import RightArrow from '../../static/Images/menu-dropdown-arrow.svg'
+import RightArrow from '../static/Images/menu-dropdown-arrow.svg'
 import {Swiper, SwiperSlide} from 'swiper/react';
 
 import 'swiper/css';
-import IphoneSwiperImage from '../../static/Images/SwiperImages/iphoneImage.svg'
-import JBLSpeaker from '../../static/Images/SwiperImages/jblSpeaker.svg'
+import IphoneSwiperImage from '../static/Images/SwiperImages/iphoneImage.svg'
+import JBLSpeaker from '../static/Images/SwiperImages/jblSpeaker.svg'
 
-import DeactivePoint from '../../static/Images/SwiperImages/swiperPointDeactive.svg'
-import ActivePoint from '../../static/Images/SwiperImages/swiperPointActive.svg'
+import DeactivePoint from '../static/Images/SwiperImages/swiperPointDeactive.svg'
+import ActivePoint from '../static/Images/SwiperImages/swiperPointActive.svg'
 import {Link} from "react-router-dom";
 
 export default function UpperHomePage(props) {

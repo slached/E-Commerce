@@ -1,12 +1,12 @@
 import React from 'react';
 import SearchBarFooter from "../Components/SearchBarFooter";
 import QRCode from '../static/Images/qrcode.svg'
-import GooglePlayIcon from '../static/Images/GooglePlay.svg'
-import AppleStoreIcon from '../static/Images/AppStore.svg'
-import FacebookIcon from '../static/Images/Icon-Facebook.svg'
-import TwitterIcon from '../static/Images/Icon-Twitter.svg'
+import GooglePlayIcon from '../static/Images/google-play.svg'
+import AppleStoreIcon from '../static/Images/app-store.svg'
+import FacebookIcon from '../static/Images/icon-facebook.svg'
+import TwitterIcon from '../static/Images/icon-twitter.svg'
 import InstagramIcon from '../static/Images/icon-instagram.svg'
-import LinkedInIcon from '../static/Images/Icon-Linkedin.svg'
+import LinkedInIcon from '../static/Images/icon-linkedin.svg'
 
 
 export default function Footer(props) {
