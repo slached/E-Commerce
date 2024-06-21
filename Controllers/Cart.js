@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../Models/User");
 const Product = require("../Models/Product");
 const Image = require("../Models/Image");
+
 const getCart = async (req, res) => {
 
     try {
@@ -95,7 +96,7 @@ const updateCart = async (req, res) => {
                 } else {
                     return res.status(200).json({
                         message: `${productId} cannot updated because quantity is invalid`,
-                        status: 200
+                        status: 400
                     })
                 }
                 isFounded = true
@@ -121,9 +122,48 @@ const updateCart = async (req, res) => {
     }
 }
 
+const deleteFromCart = async (req, res) => {
+
+    try {
+        const deletedProductId = req.params.id
+        const id = jwt.verify(req.cookies.auth, process.env.JWT_SECRET).id
+        const user = await User.findById(id)
+
+        const deletedArr = []
+        let isAnyChanges = false
+        for (let cartItem of user.cart) {
+            if (cartItem.productId === deletedProductId) {
+                //do not append deleted element
+                isAnyChanges = true
+            } else {
+                deletedArr.push(cartItem)
+            }
+        }
+
+        if (isAnyChanges) {
+            user.cart = deletedArr
+            await user.save()
+            res.status(200).json({message: `${deletedProductId} deleted successfully.`, status: 200})
+        } else {
+            res.status(200).json({
+                err: `${deletedProductId} could not founded.`,
+                status: 404
+            })
+        }
+
+    } catch (err) {
+        return res.status(200).json({
+            err: err.message,
+            status: 400
+        })
+    }
+
+
+}
 
 module.exports = {
     addCart,
     getCart,
-    updateCart
+    updateCart,
+    deleteFromCart
 }

@@ -15,7 +15,7 @@ console.log(`app listening on port ${port}`)
 
 const corsOptions = {
     credentials: true,
-    origin: "http://localhost:3000"
+    origin: "http://localhost:3000",
 }
 
 //mw
@@ -29,9 +29,13 @@ const userRouter = require('./Routers/User.js')
 const productRouter = require('./Routers/Product.js')
 const imageRouter = require('./Routers/Image.js')
 const cartRouter = require('./Routers/Cart.js')
+const wishlistRouter = require('./Routers/Wishlist.js')
+const categoryRouter = require('./Routers/Category.js')
 
 //router connections
 app.use(process.env.BASE_PATH, userRouter)
 app.use(`${process.env.BASE_PATH}/cart`, cartRouter)
 app.use(`${process.env.BASE_PATH}/product`, productRouter)
 app.use(`${process.env.BASE_PATH}/image`, imageRouter)
+app.use(`${process.env.BASE_PATH}/wishlist`, wishlistRouter)
+app.use(`${process.env.BASE_PATH}/category`, categoryRouter)

@@ -7,7 +7,7 @@ const emailRegExp = (email) => {
 
 const userSchema = new mongoose.Schema({
 
-    image: {data: Buffer, type: String, defaultValue: ""},
+    image: {type: String, defaultValue: ""},
     name: {
         type: String, trim: true, required: true
     },
@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema({
     password: {type: String, trim: true, required: true},
     wishList: {type: Array, required: false, default: []},
     cart: {type: Array, required: false, default: []},
+    address: {type: String, required: false, default: null},
 
 }, {timestamps: true})
 

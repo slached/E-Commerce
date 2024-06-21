@@ -87,5 +87,46 @@ const getUserMe = async (req, res) => {
 
 }
 
+const update = async (req, res) => {
 
-module.exports = {getAllUsers, register, login, logout, getUserMe}
+    try {
+        const body = req.body
+        const user = await User.findById(req.params.id)
+
+        if (body.currentPassword !== undefined && body?.currentPassword.length !== 0) {
+
+            const isPassCorrect = await bcrypt.compare(body.currentPassword, user.password)
+
+            if (isPassCorrect) {
+                //detect differences
+                for (const [key, value] of Object.entries(body)) {
+                    if (value.length !== 0) {
+                        if (key === "newPassword") {
+                            await bcrypt.hash(value, salt, async (err, hash) => {
+                                await User.findByIdAndUpdate({_id: req.params.id}, {password: hash})
+                            })
+                        } else await User.findByIdAndUpdate({_id: req.params.id}, {[key]: value})
+                    }
+                }
+            } else {
+                return res.status(200).json({err: "Password is not correct", status: 400})
+
+            }
+        } else {
+            //detect differences
+            for (const [key, value] of Object.entries(body)) {
+                if (value.length !== 0) {
+                    await User.findByIdAndUpdate({_id: req.params.id}, {[key]: value})
+                }
+            }
+        }
+
+        res.status(200).json({message: "User updated successfully", status: 200})
+
+    } catch (err) {
+        res.status(200).json({err: err.message, status: 400})
+    }
+
+}
+
+module.exports = {getAllUsers, register, login, logout, getUserMe, update}
