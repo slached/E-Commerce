@@ -1,4 +1,8 @@
 const Product = require('../Models/Product.js')
+const Image = require('../Models/Image.js')
+const Category = require('../Models/Category.js')
+
+const _ = require('lodash')
 
 const createProduct = async (req, res) => {
     try {
@@ -30,6 +34,58 @@ const getAllProducts = async (req, res) => {
     }
 }
 
+const getAllProductsWithImage = async (req, res) => {
+
+    const {query, sort} = req.query
+
+    try {
+        let products = await Product.find()
+
+        if (query) {
+            const category = await Category.findOne({name: _.capitalize(query)})
+            products = await Product.find({categoryId: {$in: category._id.toString()}})
+        }
+
+        const resultArray = []
+
+        for (const product of products) {
+            const images = []
+            for (const imageId of product.imageId) {
+                const image = await Image.findById(imageId, {url: 1, _id: 0})
+                images.push(image.url)
+            }
+            resultArray.push({product: product, images: images})
+        }
+
+        res.status(200).json({products: resultArray, status: 200})
+    } catch (err) {
+        res.status(200).json({message: err.message, status: 400})
+    }
+}
+
+const getDiscountedProductsWithImage = async (req, res) => {
+
+    try {
+        let products = await Product.find({isDiscounted: true})
+
+        const resultArray = []
+
+        for (const product of products) {
+            const images = []
+            for (const imageId of product.imageId) {
+                const image = await Image.findById(imageId, {url: 1, _id: 0})
+                images.push(image.url)
+            }
+            resultArray.push({product: product, images: images})
+        }
+
+        res.status(200).json({products: resultArray, status: 200})
+    } catch (err) {
+        res.status(200).json({message: err.message, status: 400})
+    }
+
+}
+
 const deleteProduct = async (req, res) => {
 
     const id = req.params.id
@@ -44,6 +100,20 @@ const deleteProduct = async (req, res) => {
 const updateProduct = async (req, res) => {
     try {
         const id = req.params.id
+        const {imageId, categoryId} = req.body
+
+        if (imageId) {
+            const image = await Image.findById(imageId)
+            if (!image) return res.status(200).json({message: `Image with id ${imageId} not found`, status: 404})
+        }
+
+        if (categoryId) {
+            const category = await Category.findById(categoryId)
+            if (!category) return res.status(200).json({
+                message: `Category with id ${categoryId} not found`,
+                status: 404
+            })
+        }
 
         //this prevents update isDiscounted without percentage
         if (req.body.isDiscounted === true && req.body.discountPercentage === undefined) {
@@ -81,4 +151,13 @@ const getOneProduct = async (req, res) => {
 
     }
 }
-module.exports = {createProduct, getAllProducts, deleteProduct, updateProduct, getOneProduct}
+
+module.exports = {
+    createProduct,
+    getAllProducts,
+    deleteProduct,
+    updateProduct,
+    getOneProduct,
+    getAllProductsWithImage,
+    getDiscountedProductsWithImage
+}

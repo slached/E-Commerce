@@ -11,7 +11,7 @@ const getAllCategories = async (req, res) => {
 
         for (const category of categories) {
             const image = await Image.findById(category.imageID)
-            categoryItemWithImageURL.push({name: category.name, url: image.url})
+            categoryItemWithImageURL.push({category: category, url: image.url})
         }
 
         res.status(200).json({data: categoryItemWithImageURL, status: 200})

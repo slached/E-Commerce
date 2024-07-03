@@ -5,11 +5,14 @@ const productController = require('../Controllers/Product.js')
 const authMiddleware = require('../MiddleWares/Auth.js')
 
 router.get('/getAll', productController.getAllProducts)
+router.get('/getAllWithImage', productController.getAllProductsWithImage)
+router.get('/getDiscountedProducts', productController.getDiscountedProductsWithImage)
 router.get('/getOne/:id', productController.getOneProduct)
 
 router.delete('/delete/:id', productController.deleteProduct)
 
-router.post('/create', authMiddleware, productController.createProduct)
+router.post('/create', authMiddleware.isAdmin, productController.createProduct)
 
-router.patch('/update/:id', authMiddleware, productController.updateProduct)
+router.patch('/update/:id', authMiddleware.isAdmin, productController.updateProduct)
+
 module.exports = router

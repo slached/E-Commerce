@@ -13,13 +13,15 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String, trim: true, required: true, unique: true, validate: {
-            validator: emailRegExp, message: "This format of email is not valid."
+            validator: emailRegExp,
+            message: "This format of email is not valid."
         }
     },
     password: {type: String, trim: true, required: true},
     wishList: {type: Array, required: false, default: []},
     cart: {type: Array, required: false, default: []},
     address: {type: String, required: false, default: null},
+    role: {type: String, required: true, default: "user"},
 
 }, {timestamps: true})
 

@@ -5,11 +5,11 @@ const imageController = require('../Controllers/Image.js')
 const multerMiddleware = require('../MiddleWares/Multer.js')
 const authMiddleware = require('../MiddleWares/Auth.js')
 
-router.delete('/delete/:id', authMiddleware, imageController.deleteImage)
+router.delete('/delete/:id', authMiddleware.isAdmin, imageController.deleteImage)
 
 router.get('/getAll', imageController.getAllImages)
 router.get('/getImageURI/:id', imageController.getImageURI)
 
-router.post('/upload', authMiddleware, multerMiddleware.single('image'), imageController.createImage)
+router.post('/upload', authMiddleware.isAdmin, multerMiddleware.single('image'), imageController.createImage)
 
 module.exports = router

@@ -59,7 +59,7 @@ const login = async (req, res) => {
         }
 
     } else {
-        if (email.length === 0) {
+        if (email?.length === 0) {
             res.status(200).json({message: "Please enter an email.", status: 404})
         } else res.status(200).json({message: "This email does not exists.", status: 404})
     }
@@ -88,6 +88,26 @@ const getUserMe = async (req, res) => {
 }
 
 const update = async (req, res) => {
+
+    try {
+        //this is admin update
+        const body = req.body
+        if (body.password) {
+            await bcrypt.hash(body.password, salt, async (err, hash) => {
+                await User.findByIdAndUpdate({_id: req.params.id}, {password: hash})
+                res.status(200).json({message: "User updated successfully", status: 200})
+            })
+        } else {
+            await User.findByIdAndUpdate({_id: req.params.id}, body)
+            res.status(200).json({message: "User updated successfully", status: 200})
+        }
+
+    } catch (err) {
+        res.status(200).json({err: err.message, status: 400})
+    }
+}
+
+const updatePassword = async (req, res) => {
 
     try {
         const body = req.body
@@ -129,4 +149,4 @@ const update = async (req, res) => {
 
 }
 
-module.exports = {getAllUsers, register, login, logout, getUserMe, update}
+module.exports = {getAllUsers, register, login, logout, getUserMe, update, updatePassword}

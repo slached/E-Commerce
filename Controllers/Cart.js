@@ -27,7 +27,9 @@ const getCart = async (req, res) => {
 const addCart = async (req, res) => {
 
     try {
-        const {_id, name} = req.body
+        let {_id, name, increaseQuantity} = req.body
+
+        if (!increaseQuantity) increaseQuantity = 1
 
         const userId = jwt.verify(req.cookies.auth, process.env.JWT_SECRET).id
         const user = await User.findById(userId)
@@ -50,7 +52,7 @@ const addCart = async (req, res) => {
 
         if (isInCart) {
             //if item already in the cart so just increase amount of the item
-            const increasedQuantity = user.cart[itemInTheCart.index].quantity += 1
+            const increasedQuantity = user.cart[itemInTheCart.index].quantity += increaseQuantity
             user.cart[itemInTheCart.index] = {
                 productId: _id,
                 quantity: increasedQuantity
@@ -61,7 +63,7 @@ const addCart = async (req, res) => {
         } else {
             const newItem = {
                 productId: _id,
-                quantity: 1
+                quantity: increaseQuantity
             }
             user.cart.push(newItem)
             await user.save()
