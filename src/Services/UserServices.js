@@ -32,7 +32,7 @@ export const addToCart = async (e) => {
             'Content-Type': 'application/json',
             'Accept': '*/*'
         },
-        body: JSON.stringify(e.product)
+        body: JSON.stringify({...e.product, increaseQuantity: e?.increaseQuantity})
 
     }).then(res => res.json())
         .then(res => {
@@ -60,7 +60,7 @@ export const insertOrExtractFromWishlist = async (item) => {
 
 export const updateUser = async (item) => {
     return new Promise(async (resolve, reject) => {
-        await fetch(`${baseUrl}/update/${item.id}`, {
+        await fetch(`${baseUrl}/updatePassword/${item.id}`, {
             method: 'PATCH',
             credentials: 'include',
             headers: {Cookie: document.cookie, 'Content-Type': 'application/json'},

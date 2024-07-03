@@ -1,5 +1,5 @@
 import React from 'react';
-import SearchBarFooter from "../Components/SearchBarFooter";
+import SearchBarFooter from "../Components/Global/SearchBarFooter";
 import QRCode from '../static/Images/qrcode.svg'
 import GooglePlayIcon from '../static/Images/google-play.svg'
 import AppleStoreIcon from '../static/Images/app-store.svg'

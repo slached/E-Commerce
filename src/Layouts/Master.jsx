@@ -1,22 +1,24 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import '../static/Style/Global.css'
 import Header from "./Header";
 import Footer from "./Footer";
-import {Outlet, useLoaderData, useOutletContext} from "react-router-dom";
+import {Outlet, useLoaderData, useLocation, useOutletContext} from "react-router-dom";
 import {baseUrl} from "../static/baseUrl";
 import {useDispatch} from "react-redux";
 import {getCartItems, getWishlistItems} from "../redux/UserSlice";
-import {getProductAndImage} from "../redux/ProductSlice";
+import {getDiscountedProducts, getProductAndImage} from "../redux/ProductSlice";
 
 export default function Master() {
 
     const dispatch = useDispatch()
+    const requestObject = {credentials: "include", headers: {Cookie: document.cookie}}
 
     //this useEffect runs backend services
     useEffect(() => {
-        dispatch(getCartItems({credentials: "include", headers: {Cookie: document.cookie}}))
-        dispatch(getWishlistItems({credentials: "include", headers: {Cookie: document.cookie}}))
-        dispatch(getProductAndImage({credentials: "include", headers: {Cookie: document.cookie}}))
+        dispatch(getDiscountedProducts(requestObject))
+        dispatch(getCartItems(requestObject))
+        dispatch(getWishlistItems(requestObject))
+        dispatch(getProductAndImage(requestObject))
     }, []);
 
     const isUserAuthed = useLoaderData()

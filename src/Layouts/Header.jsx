@@ -1,7 +1,7 @@
 import React from 'react';
 import {baseUrl} from "../static/baseUrl";
-import HeaderBlackBar from "../Components/HeaderBlackBar";
-import HeaderNavigator from "../Components/HeaderNavigator";
+import HeaderBlackBar from "../Components/Header/HeaderBlackBar";
+import HeaderNavigator from "../Components/Header/HeaderNavigator";
 
 export default function Header(props) {
 

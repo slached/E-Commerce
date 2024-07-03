@@ -16,7 +16,7 @@ export const findAllProductAndImage = (fetchObject) => {
         //and thirdly it's return image of the product
         const process = (product) => {
             return new Promise((resolve, reject) => {
-                fetch(`${baseUrl}/image/getImageURI/${product.imageId}`, fetchObject)
+                fetch(`${baseUrl}/image/getImageURI/${product.imageId[0]}`, fetchObject)
                     .then(res => res.json())
                     .then(imageOfProduct => {
                         resolve({image: imageOfProduct.dataUrl, product: product})
@@ -37,6 +37,7 @@ export const findAllProductAndImage = (fetchObject) => {
     })
 
 }
+
 export const findAllProductAndImageWishlist = (fetchObject) => {
 
     return new Promise(async (resolve, reject) => {
@@ -48,6 +49,19 @@ export const findAllProductAndImageWishlist = (fetchObject) => {
             .catch(err => reject(err))
     })
 }
+
+export const findDiscountedProducts = (fetchObject) => {
+
+    return new Promise(async (resolve, reject) => {
+        await fetch(`${baseUrl}/product/getDiscountedProducts`, fetchObject)
+            .then(res => res.json())
+            .then(res => {
+                res.status === 200 ? resolve(res.products) : reject("Error")
+            })
+            .catch(err => reject(err))
+    })
+}
+
 
 export const deleteFromWishlist = (fetchObject) => {
 
