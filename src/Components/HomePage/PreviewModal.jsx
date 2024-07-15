@@ -74,8 +74,8 @@ export default function PreviewModal(props) {
                         >
                             {props.pAndI.images.map((value, index) => <SwiperSlide
                                 key={"swiper modal image" + index}>
-                                <img className={"w-full h-full"} alt={"main image"}
-                                     src={value}/>
+                                <img className={"w-[300px] h-[300px]"} alt={"main image"}
+                                     src={value.url}/>
 
                             </SwiperSlide>)}
                         </Swiper>

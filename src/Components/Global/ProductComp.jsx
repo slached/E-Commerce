@@ -117,7 +117,7 @@ export default function ProductComp(props) {
                         //if multiple image contains (for detailed product page)
                         <img className={"max-w-[172px] max-h-[152px]"}
                              alt={props.productAndImageObject.product.name}
-                             src={props.productAndImageObject.images[0]}/>
+                             src={props.productAndImageObject.images[0].url}/>
                         :
                         <img className={"max-w-[172px] max-h-[152px]"}
                              alt={props.productAndImageObject.product.name}

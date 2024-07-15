@@ -62,52 +62,9 @@ export default function Wishlist(props) {
                     :
                     <p className={"text-[30px] font-bold text-center mb-[60px]"}>There is no item in wishlist!</p>}
 
-                <div className={"flex justify-between "}>
+                <div className={"flex justify-between mb-[100px]"}>
                     <RedHeader text={"Just For You"}/>
                     <Button2 text={"See All"}/>
-                </div>
-
-                {/* its only test for now */}
-                <div className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[30px] mb-[140px]"}>
-                    {[{
-                        product: {
-                            "_id": "6669c481a3a46c0180430d73",
-                            "imageId": "6669c41ba3a46c0180430d68",
-                            "name": "Gucci duffle bag",
-                            "price": "1160",
-                            "type": "bag",
-                            "quantity": "16",
-                            "votes": "0",
-                            "stars": "0",
-                            "isDiscounted": true,
-                            "discountPercentage": "35",
-                        },
-                        image: ""
-                    },
-                        {
-                            product: {
-                                "_id": "6669c553a3a46c0180430d7f",
-                                "imageId": "6669c429a3a46c0180430d6e",
-                                "name": "AK-900 Wired Keyboard",
-                                "price": "1160",
-                                "type": "keyboard",
-                                "quantity": "455",
-                                "votes": "0",
-                                "stars": "0",
-                                "isDiscounted": true,
-                                "discountPercentage": "35"
-                            },
-                            image: ""
-                        }
-                    ].map((productAndImage, index) => <ProductComp
-                            productAndImageObject={productAndImage}
-                            index={index}
-                            isUserAuthed={isAuthed}
-                            isStarVoteActive={true}
-                            starArr={[0, 0, 0, 0, 0]}
-                            type={"userrelateditems"}
-                        />
-                    )}
                 </div>
 
             </div>

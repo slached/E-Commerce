@@ -62,7 +62,6 @@ export const findDiscountedProducts = (fetchObject) => {
     })
 }
 
-
 export const deleteFromWishlist = (fetchObject) => {
 
     return new Promise(async (resolve, reject) => {

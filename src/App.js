@@ -17,9 +17,8 @@ import Profile from "./Components/Profile/Profile";
 import Admin from "./Pages/Admin/Admin";
 import AdminLogin from "./Pages/Admin/AdminLogin";
 import AdminPanel from "./Pages/Admin/AdminPanel";
-import UploadImageForm from "./Pages/Admin/UploadImageForm";
-import CreateProduct from "./Pages/Admin/CreateProduct";
-import UpdateProduct from "./Pages/Admin/UpdateProduct";
+import UploadImageForm from "./Components/Admin/UploadImageForm";
+import CreateProduct, {imageLoader} from "./Pages/Admin/Product";
 import Spreader from "./Layouts/Spreader";
 
 const router = createBrowserRouter(createRoutesFromElements(
@@ -47,8 +46,7 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route index element={<AdminLogin/>}/>
             <Route element={<AdminPanel/>} path={"panel"}>
                 <Route path={"uploadImage"} element={<UploadImageForm/>}/>
-                <Route path={"createProduct"} element={<CreateProduct/>}/>
-                <Route path={"updateProduct"} element={<UpdateProduct/>}/>
+                <Route loader={imageLoader} path={"product"} element={<CreateProduct/>}/>
             </Route>
         </Route>
     </Route>

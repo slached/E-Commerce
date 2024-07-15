@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {useCookies} from "react-cookie";
 import {baseUrl} from "../../static/baseUrl";
 import {useNavigate} from "react-router-dom";
-import {remove} from "lodash";
 
 export default function AdminLogin(props) {
 

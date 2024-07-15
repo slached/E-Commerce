@@ -34,7 +34,7 @@ export default function About(props) {
                             diverse assotment in categories ranging from consumer.
                         </p>
                     </div>
-                    <img loading={"lazy"} className={"min-h-[609px] min-w-[705px] max-h-[609px] max-w-[705px]"} alt={"image"}
+                    <img loading={"lazy"} className={"min-h-[609px] min-w-[705px] max-h-[609px] max-w-[705px]"} alt={""}
                          src={ImageAbout}/>
                 </div>
                 <div className={"grid grid-cols-4 gap-[40px] mb-[140px] mr-[135px]"}>
