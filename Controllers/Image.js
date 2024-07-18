@@ -83,4 +83,5 @@ const deleteImage = async (req, res) => {
 
     }
 }
+
 module.exports = {createImage, getImageURI, deleteImage, getAllImages}
