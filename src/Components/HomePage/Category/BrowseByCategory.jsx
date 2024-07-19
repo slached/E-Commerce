@@ -57,7 +57,7 @@ export default function BrowseByCategory(props) {
                                                     search: searchParams.get("language") ? `?language=${searchParams.get("language")}&query=${item.category.name.toLowerCase()}` : `?query=${item.category.name.toLowerCase()}`,
                                                 }}>
                                                     <CategoryBox category={item.category.name}
-                                                                 src={item.url}/>
+                                                                 src={item.image.url}/>
                                                 </Link>
                                             </SwiperSlide>
                                         )

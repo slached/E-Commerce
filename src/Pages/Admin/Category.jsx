@@ -21,42 +21,38 @@ import {baseUrl} from "../../static/baseUrl";
 import {PlusIcon, SearchIcon, ChevronDownIcon, VerticalDotsIcon} from "../../static/NextIcons";
 
 import {capitalize} from "lodash";
-import EditAndCreateProductModal from "../../Components/Admin/Modals/EditAndCreateProductModal";
+import EditAndCreateCategoryModal from "../../Components/Admin/Modals/EditAndCreateCategoryModal";
+import {useDispatch} from "react-redux";
 
-export default function Product() {
+export default function Category() {
 
-    const columns = [{uid: "image", name: "IMAGE"}, {uid: "name", name: "NAME"}, {
-        uid: "price",
-        name: "PRICE"
-    }, {uid: "quantity", name: "QUANTITY"}, {uid: "votes", name: "VOTES"}, {
-        uid: "stars",
-        name: "STARS"
-    }, {uid: "is discounted", name: "IS DISCOUNTED"}, {
-        uid: "discount percentage",
-        name: "DISCOUNT PERCENTAGE"
-    }, {uid: "updated at", name: "UPDATED AT"}, {uid: "created at", name: "CREATED AT"},];
+    const columns = [
+        {uid: "image", name: "IMAGE"},
+        {uid: "name", name: "NAME"},
+        {uid: "updated at", name: "UPDATED AT"},
+        {uid: "created at", name: "CREATED AT"},];
 
-    const INITIAL_VISIBLE_COLUMNS = ["image", "name", "price", "quantity", "votes", "stars", "actions"];
+    const INITIAL_VISIBLE_COLUMNS = ["image", "name"];
 
     const [isLoading, setIsLoading] = useState(true);
     const [hasMore, setHasMore] = useState(false);
     const [filterValue, setFilterValue] = useState("")
     const [visibleColumns, setVisibleColumns] = useState(new Set(INITIAL_VISIBLE_COLUMNS));
-    const [editedProduct, setEditedProduct] = useState({});
+
     const {isOpen, onOpen, onClose} = useDisclosure();
-    const [selectedImagesKeyValue, setSelectedImagesKeyValue] = useState(new Set());
-    const [imagesKeyValue, setImagesKeyValue] = useState(new Set());
+
+    const [editedCategory, setEditedCategory] = useState({});
     const [modalType, setModalType] = useState("")
+    const [selectedImage, setSelectedImage] = useState(new Set());
 
     let list = useAsyncList({
         async load({signal, cursor}) {
             if (cursor) setIsLoading(false);
             // If no cursor is available, then we're loading the first page.
             // Otherwise, the cursor is the next URL to load, as returned from the previous page.
-            const res = await fetch(cursor || `${baseUrl}/product/getAllWithImage/?search=`, {signal});
+            const res = await fetch(cursor || `${baseUrl}/category/getAll/?search=`, {signal});
             let json = await res.json();
             setHasMore(json.next !== null);
-
             return {
                 items: json.results, cursor: json.next,
             };
@@ -72,7 +68,6 @@ export default function Product() {
             setFilterValue("");
         }
     }, []);
-
     const onClear = useCallback(() => {
         setFilterValue("")
     }, [])
@@ -120,7 +115,7 @@ export default function Product() {
                 </div>
             </div>
             <div className="flex justify-between items-center">
-                <span className="text-default-400 text-small">Total {list.items.length} products</span>
+                <span className="text-default-400 text-small">Total {list.items.length} categories</span>
             </div>
         </div>);
     }, [filterValue, visibleColumns, list.items.length, onSearchChange,]);
@@ -138,26 +133,14 @@ export default function Product() {
 
         switch (columnKey) {
             case "image":
-                return <img className={"h-[24px] bg-white"} loading={"lazy"} alt={`img ${listItem.product.name}`}
-                            src={listItem.images[0].url}/>
+                return <img className={"h-[24px] bg-white"} loading={"lazy"} alt={`img ${listItem.category.name}`}
+                            src={listItem.image.url}/>
             case "name":
-                return <p>{listItem.product.name}</p>
-            case "price":
-                return <p>${listItem.product.price}</p>
-            case "quantity":
-                return <p>{listItem.product.quantity}</p>
-            case "votes":
-                return <p>{listItem.product.votes}</p>
-            case "stars":
-                return <p>{listItem.product.stars}</p>
-            case "is discounted":
-                return <p>{listItem.product.isDiscounted.toString()}</p>
-            case "discount percentage":
-                return (listItem.product.isDiscounted ? <p>{listItem.product.discountPercentage}%</p> : <p>-</p>);
+                return <p>{listItem.category.name}</p>
             case "updated at":
-                return <p>{listItem.product.updatedAt}</p>
+                return <p>{listItem.category.updatedAt}</p>
             case "created at":
-                return <p>{listItem.product.createdAt}</p>
+                return <p>{listItem.category.createdAt}</p>
             case "actions":
                 return (<div className="relative flex justify-end items-center gap-2">
                     <Dropdown>
@@ -168,16 +151,16 @@ export default function Product() {
                         </DropdownTrigger>
                         <DropdownMenu>
                             <DropdownItem onClick={() => {
-                                setEditedProduct(listItem)
-
-                                //this is formatting selected product images into {key,label} object
-                                setSelectedImagesKeyValue(new Set())
-                                for (const eachObject of listItem.images) setSelectedImagesKeyValue(prevState => prevState.add(eachObject._id))
+                                setEditedCategory(listItem)
                                 setModalType("edit")
+
+                                setSelectedImage(new Set())
+                                setSelectedImage(prevState => prevState.add(listItem.image._id))
+
                                 onOpen()
                             }}>Edit</DropdownItem>
                             <DropdownItem onClick={() => {
-                                fetch(`${baseUrl}/product/delete/${listItem.product._id}`, {
+                                fetch(`${baseUrl}/category/delete/${listItem.category._id}`, {
                                     method: "DELETE", credentials: "include", headers: {Cookie: document.cookies},
                                 })
                                     .then(res => res.json())
@@ -192,6 +175,7 @@ export default function Product() {
             default:
                 return "";
         }
+
     }, []);
 
     return (<div className={"flex justify-center"}>
@@ -221,16 +205,19 @@ export default function Product() {
                 loadingContent={<Spinner color="white"/>}
             >
                 {(item) => {
-                    return (<TableRow key={item.product.name}>
-                        {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
-                    </TableRow>)
+                    return (
+                        <TableRow key={item.category.name}>
+                            {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
+                        </TableRow>
+                    )
+
                 }}
             </TableBody>
         </Table>
 
-        <EditAndCreateProductModal type={modalType} selectedItems={selectedImagesKeyValue} images={imagesKeyValue}
-                                   pAndI={editedProduct}
-                                   onOpen={onOpen} onClose={onClose}
-                                   isOpen={isOpen}/>
+        <EditAndCreateCategoryModal selectedItem={selectedImage} pAndI={editedCategory} onOpen={onOpen}
+                                    onClose={onClose}
+                                    isOpen={isOpen}
+                                    type={modalType}/>
     </div>);
 }

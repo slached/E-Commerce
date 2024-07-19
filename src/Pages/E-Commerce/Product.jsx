@@ -31,7 +31,7 @@ export default function Product(props) {
                     <div className={"flex"}>
                         <ProductFilter/>
                         <div
-                            className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[35px]"}>
+                            className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-[35px]"}>
                             {
                                 responseFromDb.products.length > 0 ?
                                     responseFromDb.products.map((product, index) => {

@@ -60,7 +60,7 @@ export default function Wishlist(props) {
                         </div>
                     </div>
                     :
-                    <p className={"text-[30px] font-bold text-center mb-[60px]"}>There is no item in wishlist!</p>}
+                    <p className={"text-[30px]  text-center mb-[60px]"}>There is no item in your wishlist.</p>}
 
                 <div className={"flex justify-between mb-[100px]"}>
                     <RedHeader text={"Just For You"}/>

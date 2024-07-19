@@ -14,12 +14,13 @@ import MyAccount from "./Pages/E-Commerce/MyAccount";
 import Product, {productLoader} from "./Pages/E-Commerce/Product";
 
 import Profile from "./Components/Profile/Profile";
-import Admin from "./Pages/Admin/Admin";
+import Admin from "./Layouts/Admin";
 import AdminLogin from "./Pages/Admin/AdminLogin";
 import AdminPanel from "./Pages/Admin/AdminPanel";
 import UploadImageForm from "./Components/Admin/UploadImageForm";
-import CreateProduct, {imageLoader} from "./Pages/Admin/Product";
+import CreateProduct from "./Pages/Admin/Product";
 import Spreader from "./Layouts/Spreader";
+import Category from "./Pages/Admin/Category";
 
 const router = createBrowserRouter(createRoutesFromElements(
     <Route element={<Spreader/>}>
@@ -46,7 +47,9 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route index element={<AdminLogin/>}/>
             <Route element={<AdminPanel/>} path={"panel"}>
                 <Route path={"uploadImage"} element={<UploadImageForm/>}/>
-                <Route loader={imageLoader} path={"product"} element={<CreateProduct/>}/>
+                <Route path={"product"} element={<CreateProduct/>}/>
+                <Route path={"category"} element={<Category/>}/>
+
             </Route>
         </Route>
     </Route>

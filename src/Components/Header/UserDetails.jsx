@@ -42,7 +42,7 @@ export default function UserDetails(props) {
         <Dropdown
             classNames={{
                 base: "before:bg-default-200", // change arrow background
-                content: "py-1 pl-[27px] pr-[12px] bg-gradient-to-t from-gray-500/60 to-gray-300/50",
+                content: "py-1 px-[15px] bg-gray-300/90",
             }}
             radius={"sm"} size={"lg"} placement="bottom-end">
             <DropdownTrigger>
