@@ -9,7 +9,7 @@ router.get('/getAllWithImage', productController.getAllProductsWithImage)
 router.get('/getDiscountedProducts', productController.getDiscountedProductsWithImage)
 router.get('/getOne/:id', productController.getOneProduct)
 
-router.delete('/delete/:id', productController.deleteProduct)
+router.delete('/delete/:id', authMiddleware.isAdmin, productController.deleteProduct)
 
 router.post('/create', authMiddleware.isAdmin, productController.createProduct)
 
