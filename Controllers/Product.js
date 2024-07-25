@@ -87,7 +87,7 @@ const getAllProductsWithImage = async (req, res) => {
         }
 
         if (query) {
-            const category = await Category.findOne({name: _.capitalize(query)})
+            const category = await Category.findOne({name: new RegExp(`^${query}$`, 'i')})
             products = await Product.find({categoryId: {$in: category._id.toString()}})
         }
 

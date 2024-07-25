@@ -1,6 +1,4 @@
 const User = require('../Models/User.js')
-const Product = require('../Models/Product.js')
-const Image = require('../Models/Image.js')
 const bcrypt = require('bcrypt')
 const salt = 10
 const jwt = require('jsonwebtoken')
@@ -33,6 +31,7 @@ const login = async (req, res) => {
     const user = await User.findOne({email: email})
 
     if (user) {
+
         const comparePassword = await bcrypt.compare(password, user.password)
 
         if (comparePassword) {
