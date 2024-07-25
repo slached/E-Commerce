@@ -45,6 +45,8 @@ export default function Product() {
     const [editedProduct, setEditedProduct] = useState({});
     const {isOpen, onOpen, onClose} = useDisclosure();
     const [selectedImagesKeyValue, setSelectedImagesKeyValue] = useState(new Set());
+    const [selectedCategoriesKeyValue, setSelectedCategoriesKeyValue] = useState(new Set());
+
     const [imagesKeyValue, setImagesKeyValue] = useState(new Set());
     const [modalType, setModalType] = useState("")
 
@@ -173,6 +175,11 @@ export default function Product() {
                                 //this is formatting selected product images into {key,label} object
                                 setSelectedImagesKeyValue(new Set())
                                 for (const eachObject of listItem.images) setSelectedImagesKeyValue(prevState => prevState.add(eachObject._id))
+
+                                //this is formatting selected categories into {key,label} object
+                                setSelectedCategoriesKeyValue(new Set())
+                                for (const eachObject of listItem.product.categoryId) setSelectedCategoriesKeyValue(prevState => prevState.add(eachObject))
+
                                 setModalType("edit")
                                 onOpen()
                             }}>Edit</DropdownItem>
@@ -228,7 +235,10 @@ export default function Product() {
             </TableBody>
         </Table>
 
-        <EditAndCreateProductModal type={modalType} selectedItems={selectedImagesKeyValue} images={imagesKeyValue}
+        <EditAndCreateProductModal type={modalType}
+                                   selectedCategories={selectedCategoriesKeyValue}
+                                   selectedImages={selectedImagesKeyValue}
+                                   images={imagesKeyValue}
                                    pAndI={editedProduct}
                                    onOpen={onOpen} onClose={onClose}
                                    isOpen={isOpen}/>

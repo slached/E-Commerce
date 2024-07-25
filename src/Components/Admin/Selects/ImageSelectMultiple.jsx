@@ -9,7 +9,7 @@ export default function SelectField(props) {
     const {selectedImages, allImages} = useSelector(selector => selector.globalReducer);
 
     useEffect(() => {
-        dispatch(setSelectedImages(props?.selectedItems))
+        dispatch(setSelectedImages(props?.selectedImages))
     }, [])
 
     return (
@@ -17,7 +17,7 @@ export default function SelectField(props) {
             items={allImages}
             placeholder="Select images"
             selectionMode="multiple"
-            className="p-2 max-w-[420px]"
+            className="p-2 w-[235px]"
             selectedKeys={selectedImages}
             onSelectionChange={(e) => dispatch(setSelectedImages(e))}
         >

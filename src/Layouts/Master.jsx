@@ -1,8 +1,8 @@
-import React, {useEffect, useRef, useState} from 'react';
+import {useEffect} from 'react';
 import '../static/Style/Global.css'
 import Header from "./Header";
 import Footer from "./Footer";
-import {Outlet, useLoaderData, useLocation, useOutletContext} from "react-router-dom";
+import {Outlet, useLoaderData} from "react-router-dom";
 import {baseUrl} from "../static/baseUrl";
 import {useDispatch} from "react-redux";
 import {getCartItems, getWishlistItems} from "../redux/UserSlice";

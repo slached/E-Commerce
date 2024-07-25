@@ -52,7 +52,7 @@ export default function BrowseByCategory(props) {
 
                                         return (
                                             <SwiperSlide>
-                                                <Link to={{
+                                                <Link reloadDocument to={{
                                                     pathname: "/product",
                                                     search: searchParams.get("language") ? `?language=${searchParams.get("language")}&query=${item.category.name.toLowerCase()}` : `?query=${item.category.name.toLowerCase()}`,
                                                 }}>

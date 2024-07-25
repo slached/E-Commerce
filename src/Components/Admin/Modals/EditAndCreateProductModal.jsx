@@ -1,9 +1,19 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@nextui-org/react";
-import SelectField from "../Selects/MultipleSelect";
+import {
+    Button,
+    Modal,
+    ModalBody,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    Switch
+} from "@nextui-org/react";
+import ImageSelect from "../Selects/ImageSelectMultiple";
 import {baseUrl} from "../../../static/baseUrl";
 import {useDispatch, useSelector} from "react-redux";
-import {setSelectedImages} from "../../../redux/Global";
+import {setSelectedCategories, setSelectedImages} from "../../../redux/Global";
+import CategorySelect from "../Selects/CategorySelect";
+import SpecialSelectForColors from "../Selects/SpecialSelectForColors";
 
 export default function EditAndCreateProductModal(props) {
 
@@ -13,8 +23,17 @@ export default function EditAndCreateProductModal(props) {
     const [quantity, setQuantity] = useState();
     const [votes, setVotes] = useState();
     const [stars, setStars] = useState();
+    const [description, setDescription] = useState();
+
+    const [colorSwitch, setColorSwitch] = useState(false);
+    const [selectedColors, setSelectedColors] = useState()
+
+    const [sizeOptions, setSizeOptions] = useState();
+
     const [discountPercentage, setDiscountPercentage] = useState();
     const [errMessage, setErrorMessage] = useState("")
+
+    const {selectedImages, selectedCategories} = useSelector(selector => selector.globalReducer);
 
     useEffect(() => {
         if (props.type === "edit") {
@@ -27,6 +46,7 @@ export default function EditAndCreateProductModal(props) {
         } else {
             //clear all input values
             dispatch(setSelectedImages(new Set()))
+            dispatch(setSelectedCategories(new Set()))
             setName("")
             setPrice("")
             setQuantity("")
@@ -36,15 +56,17 @@ export default function EditAndCreateProductModal(props) {
         }
     }, [props])
 
-    const {selectedImages} = useSelector(selector => selector.globalReducer);
-
     const onSubmit = async () => {
 
         const images = []
         for (const image of selectedImages) images.push(image)
 
+        const categories = []
+        for (const category of selectedCategories) categories.push(category)
+
         const body = {
             imageId: images,
+            categoryId: categories,
             name: name,
             price: price,
             quantity: quantity,
@@ -96,9 +118,13 @@ export default function EditAndCreateProductModal(props) {
                                        setName(e.target.value)
                                    }} type={"text"} value={name}/>
                         </label>
-                        <label className={"flex flex-col gap-[3px] grow"}>
+                        <label className={"flex flex-col gap-[3px]"}>
                             <p className={"text-[12px]"}><strong>Images</strong></p>
-                            <SelectField selectedItems={props.selectedItems}/>
+                            <ImageSelect selectedImages={props.selectedImages}/>
+                        </label>
+                        <label className={"flex flex-col gap-[3px]"}>
+                            <p className={"text-[12px]"}><strong>Categories</strong></p>
+                            <CategorySelect selectedCategories={props.selectedCategories}/>
                         </label>
                     </div>
                     <div className={"flex gap-2"}>
@@ -140,6 +166,26 @@ export default function EditAndCreateProductModal(props) {
                                    }} type={"text"} value={discountPercentage}/>
                         </label>
                     </div>
+
+                    <label className={"flex flex-col gap-[3px]"}>
+                        <p className={"text-[12px]"}><strong>Color Options</strong></p>
+                        <Switch onValueChange={setColorSwitch} aria-label="Automatic updates"/>
+                    </label>
+
+                    {colorSwitch && <div className={"flex gap-2"}>
+                        <label className={"flex flex-col gap-[3px]"}>
+                            <p className={"text-[12px]"}><strong>Colors</strong></p>
+                            <SpecialSelectForColors/>
+                        </label>
+                    </div>}
+
+                    <label className={"flex flex-col gap-[3px]"}>
+                        <p className={"text-[12px]"}><strong>Description</strong></p>
+                        <textarea className={"outline-none border border-gray-300 rounded-md p-3"}
+                                  onChange={(e) => {
+                                      setDescription(e.target.value)
+                                  }} value={description}/>
+                    </label>
                     <p className={"mt-3 text-[14px] font-semibold text-red-900"}>{errMessage}</p>
                 </ModalBody>
                 <ModalFooter>

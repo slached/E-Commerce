@@ -3,7 +3,7 @@ import {Outlet, useNavigate} from "react-router-dom";
 import {baseUrl} from "../../static/baseUrl";
 import Navigator from "../../Components/Admin/Navigator";
 import {useDispatch} from "react-redux";
-import {findAllImages} from "../../redux/Global";
+import {findAllCategories, findAllImages} from "../../redux/Global";
 
 export default function AdminPanel(props) {
 
@@ -22,6 +22,7 @@ export default function AdminPanel(props) {
                 if (res.status !== 200) navigate("/admin")
                 else {
                     dispatch(findAllImages())
+                    dispatch(findAllCategories())
                 }
 
             })

@@ -3,7 +3,7 @@ import {Select, SelectItem} from "@nextui-org/react";
 import {setSelectedImage} from "../../../redux/Global";
 import {useDispatch, useSelector} from "react-redux";
 
-export default function SingleSelect(props) {
+export default function ImageSelectSingle(props) {
 
     const dispatch = useDispatch();
     const {selectedImage,allImages} = useSelector(selector => selector.globalReducer);

@@ -3,7 +3,7 @@ import {Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "
 import {baseUrl} from "../../../static/baseUrl";
 import {useDispatch, useSelector} from "react-redux";
 import {setSelectedImage} from "../../../redux/Global";
-import SingleSelect from "../Selects/SingleSelect";
+import ImageSelectSingle from "../Selects/ImageSelectSingle";
 
 export default function EditAndCreateCategoryModal(props) {
 
@@ -79,7 +79,7 @@ export default function EditAndCreateCategoryModal(props) {
                             </label>
                             <label className={"flex flex-col gap-[3px] grow"}>
                                 <p className={"text-[12px]"}><strong>Images</strong></p>
-                                <SingleSelect selectedItem={props.selectedItem}/>
+                                <ImageSelectSingle selectedItem={props.selectedItem}/>
                             </label>
                         </div>
 
