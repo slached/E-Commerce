@@ -19,9 +19,24 @@ const initialState = {
         {label: "Pink", key: "pink", quantity: null},
     ],
 
+    sizeTypes: [
+        {label: "Sm", key: "sm", quantity: null},
+        {label: "Md", key: "md", quantity: null},
+        {label: "Lg", key: "lg", quantity: null},
+        {label: "Xl", key: "xl", quantity: null},
+        {label: "2xl", key: "2xl", quantity: null},
+    ],
+
     allImages: new Set(), allCategories: new Set(), loading: false, error: "",
 }
 
+export const clearColorTypes = createAsyncThunk("clearColorTypes", (e) => {
+    return e
+})
+
+export const clearSizeTypes = createAsyncThunk("clearSizeTypes", (e) => {
+    return e
+})
 export const findAllImages = createAsyncThunk("findAllImages", () => {
     return getAllImages()
 })
@@ -38,6 +53,10 @@ export const setColorTypes = createAsyncThunk("setColorTypes", (e) => {
     return e
 })
 
+export const setSizeTypes = createAsyncThunk("setSizeTypes", (e) => {
+    return e
+})
+
 export const setSelectedImages = createAsyncThunk("setSelectedImages", (e) => {
     return e
 })
@@ -47,7 +66,9 @@ export const setSelectedImage = createAsyncThunk("setSelectedImage", (e) => {
 })
 
 export const globalSlice = createSlice({
-    name: 'global', initialState, extraReducers: (builder) => {
+    name: 'global',
+    initialState,
+    extraReducers: (builder) => {
         builder.addCase(setSelectedImages.pending, (state, action) => {
             state.loading = true
             state.error = ""
@@ -133,6 +154,39 @@ export const globalSlice = createSlice({
             state.error = "An error occurred while setting color types"
         })
 
+        //set size types
+        builder.addCase(setSizeTypes.pending, (state, action) => {
+            state.loading = true
+            state.error = ""
+        })
+        builder.addCase(setSizeTypes.fulfilled, (state, action) => {
+            state.sizeTypes = action.payload
+            state.loading = false
+        })
+        builder.addCase(setSizeTypes.rejected, (state, action) => {
+            state.loading = false
+            state.error = "An error occurred while setting size types"
+        })
+
+        builder.addCase(clearColorTypes.fulfilled, (state, action) => {
+            state.colorTypes = [
+                {label: "Blue", key: "blue", quantity: null},
+                {label: "Red", key: "red", quantity: null},
+                {label: "Green", key: "green", quantity: null},
+                {label: "Yellow", key: "yellow", quantity: null},
+                {label: "Pink", key: "pink", quantity: null},
+            ]
+        })
+
+        builder.addCase(clearSizeTypes.fulfilled, (state, action) => {
+            state.sizeTypes = [
+                {label: "Sm", key: "sm", quantity: null},
+                {label: "Md", key: "md", quantity: null},
+                {label: "Lg", key: "lg", quantity: null},
+                {label: "Xl", key: "xl", quantity: null},
+                {label: "2xl", key: "2xl", quantity: null},
+            ]
+        })
 
     }
 })

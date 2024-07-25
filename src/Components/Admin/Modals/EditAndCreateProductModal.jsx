@@ -11,9 +11,15 @@ import {
 import ImageSelect from "../Selects/ImageSelectMultiple";
 import {baseUrl} from "../../../static/baseUrl";
 import {useDispatch, useSelector} from "react-redux";
-import {setSelectedCategories, setSelectedImages} from "../../../redux/Global";
+import {
+    clearColorTypes,
+    clearSizeTypes,
+    setColorTypes,
+    setSelectedCategories,
+    setSelectedImages, setSizeTypes
+} from "../../../redux/Global";
 import CategorySelect from "../Selects/CategorySelect";
-import SpecialSelectForColors from "../Selects/SpecialSelectForColors";
+import SelectForColorAndSizeOptions from "../Selects/SelectForColorAndSizeOptions";
 
 export default function EditAndCreateProductModal(props) {
 
@@ -26,16 +32,21 @@ export default function EditAndCreateProductModal(props) {
     const [description, setDescription] = useState();
 
     const [colorSwitch, setColorSwitch] = useState(false);
-    const [selectedColors, setSelectedColors] = useState()
-
-    const [sizeOptions, setSizeOptions] = useState();
+    const [sizeSwitch, setSizeSwitch] = useState(false);
 
     const [discountPercentage, setDiscountPercentage] = useState();
     const [errMessage, setErrorMessage] = useState("")
 
-    const {selectedImages, selectedCategories} = useSelector(selector => selector.globalReducer);
+    const {selectedImages, selectedCategories, colorTypes, sizeTypes} = useSelector(selector => selector.globalReducer);
 
     useEffect(() => {
+        //clear
+        dispatch(clearColorTypes())
+        dispatch(clearSizeTypes())
+        setColorSwitch(false)
+        setSizeSwitch(false)
+
+        //if edit so set inital values
         if (props.type === "edit") {
             setName(props.pAndI?.product?.name)
             setPrice(props.pAndI?.product?.price)
@@ -43,6 +54,10 @@ export default function EditAndCreateProductModal(props) {
             setVotes(props.pAndI?.product?.votes)
             setStars(props.pAndI?.product?.stars)
             setDiscountPercentage(props.pAndI?.product?.discountPercentage)
+            setDescription(props.pAndI?.product?.description)
+
+            props.pAndI?.product?.colorOptions.length !== 0 && dispatch(setColorTypes(props.pAndI?.product?.colorOptions))
+            props.pAndI?.product?.sizeOptions.length !== 0 && dispatch(setSizeTypes(props.pAndI?.product?.sizeOptions))
         } else {
             //clear all input values
             dispatch(setSelectedImages(new Set()))
@@ -53,6 +68,7 @@ export default function EditAndCreateProductModal(props) {
             setVotes("")
             setStars("")
             setDiscountPercentage("")
+            setDescription("")
         }
     }, [props])
 
@@ -73,8 +89,10 @@ export default function EditAndCreateProductModal(props) {
             votes: votes,
             stars: stars,
             discountPercentage: discountPercentage,
+            description: description,
+            colorOptions: colorTypes,
+            sizeOptions: sizeTypes
         }
-
 
         let request
         if (props.type === "edit") {
@@ -167,17 +185,43 @@ export default function EditAndCreateProductModal(props) {
                         </label>
                     </div>
 
-                    <label className={"flex flex-col gap-[3px]"}>
-                        <p className={"text-[12px]"}><strong>Color Options</strong></p>
-                        <Switch onValueChange={setColorSwitch} aria-label="Automatic updates"/>
-                    </label>
+                    <div className={"flex gap-4"}>
+                        <div className={"flex flex-col gap-4"}>
+                            <label className={"flex flex-col gap-[3px]"}>
+                                <p className={"text-[12px]"}><strong>Color Options</strong></p>
+                                <Switch onValueChange={setColorSwitch} aria-label="Automatic updates"/>
+                            </label>
 
-                    {colorSwitch && <div className={"flex gap-2"}>
-                        <label className={"flex flex-col gap-[3px]"}>
-                            <p className={"text-[12px]"}><strong>Colors</strong></p>
-                            <SpecialSelectForColors/>
-                        </label>
-                    </div>}
+                            {colorSwitch && <div className={"flex gap-2"}>
+                                <label className={"flex flex-col gap-[3px]"}>
+                                    <div className={"flex justify-between px-[10px]"}>
+                                        <p className={"w-[20px]"}></p>
+                                        <p className={"text-[12px]"}><strong>Color</strong></p>
+                                        <p className={"text-[12px]"}><strong>Quantity</strong></p>
+                                    </div>
+                                    <SelectForColorAndSizeOptions type={"color"}/>
+                                </label>
+                            </div>}
+                        </div>
+
+                        <div className={"flex flex-col gap-4"}>
+                            <label className={"flex flex-col gap-[3px]"}>
+                                <p className={"text-[12px]"}><strong>Size Options</strong></p>
+                                <Switch onValueChange={setSizeSwitch} aria-label="Automatic updates"/>
+                            </label>
+
+                            {sizeSwitch && <div className={"flex gap-2"}>
+                                <label className={"flex flex-col gap-[3px]"}>
+                                    <div className={"flex justify-between px-[10px]"}>
+                                        <p className={"w-[20px]"}></p>
+                                        <p className={"text-[12px]"}><strong>Size</strong></p>
+                                        <p className={"text-[12px]"}><strong>Quantity</strong></p>
+                                    </div>
+                                    <SelectForColorAndSizeOptions type={"size"}/>
+                                </label>
+                            </div>}
+                        </div>
+                    </div>
 
                     <label className={"flex flex-col gap-[3px]"}>
                         <p className={"text-[12px]"}><strong>Description</strong></p>

@@ -171,7 +171,7 @@ export default function Product() {
                         <DropdownMenu>
                             <DropdownItem onClick={() => {
                                 setEditedProduct(listItem)
-
+                                console.log(listItem)
                                 //this is formatting selected product images into {key,label} object
                                 setSelectedImagesKeyValue(new Set())
                                 for (const eachObject of listItem.images) setSelectedImagesKeyValue(prevState => prevState.add(eachObject._id))
