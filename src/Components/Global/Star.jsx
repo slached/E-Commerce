@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import EmptyStar from "../../static/Images/empty-star.svg";
 import FullStar from "../../static/Images/full-star.svg";
 import HalfStar from "../../static/Images/star-half-filled.svg";
+import {random} from "lodash";
 
 export default function Star(props) {
 
@@ -31,11 +32,11 @@ export default function Star(props) {
             {starArr.map(value => {
                 switch (value) {
                     case 0:
-                        return <img className={"h-[15px] w-[15px]"} alt={"empty star"} src={EmptyStar}/>
+                        return <img key={random(100000)} className={"h-[15px] w-[15px]"} alt={"empty star"} src={EmptyStar}/>
                     case 1:
-                        return <img className={"h-[15px] w-[15px]"} alt={"full star"} src={FullStar}/>
+                        return <img key={random(100000)} className={"h-[15px] w-[15px]"} alt={"full star"} src={FullStar}/>
                     case 0.5:
-                        return <img className={"h-[15px] w-[15px]"} alt={"half star"} src={HalfStar}/>
+                        return <img key={random(100000)} className={"h-[15px] w-[15px]"} alt={"half star"} src={HalfStar}/>
                 }
             })}
         </div>

@@ -12,7 +12,6 @@ import Wishlist from "./Pages/E-Commerce/Wishlist";
 import Page404 from "./Pages/E-Commerce/Page404";
 import MyAccount from "./Pages/E-Commerce/MyAccount";
 import Product, {productLoader} from "./Pages/E-Commerce/Product";
-
 import Profile from "./Components/Profile/Profile";
 import Admin from "./Layouts/Admin";
 import AdminLogin from "./Pages/Admin/AdminLogin";
@@ -21,6 +20,7 @@ import UploadImageForm from "./Components/Admin/UploadImageForm";
 import CreateProduct from "./Pages/Admin/Product";
 import Spreader from "./Layouts/Spreader";
 import Category from "./Pages/Admin/Category";
+import ProductDetails, {oneProductLoader} from "./Pages/E-Commerce/ProductDetails";
 
 const router = createBrowserRouter(createRoutesFromElements(
     <Route element={<Spreader/>}>
@@ -37,6 +37,7 @@ const router = createBrowserRouter(createRoutesFromElements(
                 <Route path={"cancellations"} element={<Profile/>}/>
             </Route>
             <Route path="product" loader={productLoader} element={<Product/>}/>
+            <Route path={":id"} loader={oneProductLoader} element={<ProductDetails/>}/>
             <Route path="about" element={<About/>}/>
             <Route path="login" element={<Login/>}/>
             <Route path="register" element={<Register/>}/>

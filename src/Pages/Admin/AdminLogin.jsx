@@ -73,14 +73,16 @@ export default function AdminLogin(props) {
                 <div className={"flex justify-center"}>
                     <label>
                         <p className={"text-[14px]max-w-fit text-white"}>E-mail</p>
-                        <input onChange={e => setEmail(e.target.value)} value={email} className={inputClass}
+                        <input name={"email"} onChange={e => setEmail(e.target.value)} value={email}
+                               className={inputClass}
                                type="email"/>
                     </label>
                 </div>
                 <div className={"flex justify-center"}>
                     <label>
                         <p className={"text-[14px]max-w-fit text-white"}>Password</p>
-                        <input value={password} onChange={e => setPassword(e.target.value)} className={inputClass}
+                        <input name={"password"} value={password} onChange={e => setPassword(e.target.value)}
+                               className={inputClass}
                                type="password"/>
                     </label>
                 </div>

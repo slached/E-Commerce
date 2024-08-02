@@ -39,7 +39,7 @@ export default function SelectForColorAndSizeOptions(props) {
                                 props.type === "color" ? dispatch(setColorTypes(updatedTypes)) : dispatch(setSizeTypes(updatedTypes));
 
                             }} value={item.quantity}
-                                   className={"outline-none border border-gray-300 rounded-md p-3 text-center w-[40px] h-[35px]"}/>
+                                   className={"outline-none border border-gray-300 rounded-md p-3 text-center w-[45px] h-[35px]"}/>
                         </div>
                     ))}
                 </div>
@@ -60,7 +60,6 @@ export default function SelectForColorAndSizeOptions(props) {
                     }} className={"min-w-[55px]"} variant={"bordered"} color="default">Add</Button>
                 </div>
             </div>
-
         </div>
     );
 }

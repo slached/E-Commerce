@@ -10,11 +10,11 @@ export default function CategorySelect(props) {
 
     useEffect(() => {
         dispatch(setSelectedCategories(props?.selectedCategories))
-
     }, [])
 
     return (
         <Select
+            aria-label={"Category"}
             items={allCategories}
             placeholder="Select Categories"
             selectionMode="multiple"

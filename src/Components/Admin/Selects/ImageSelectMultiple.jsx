@@ -14,6 +14,7 @@ export default function SelectField(props) {
 
     return (
         <Select
+            aria-label={"Image"}
             items={allImages}
             placeholder="Select images"
             selectionMode="multiple"

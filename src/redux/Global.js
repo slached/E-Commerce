@@ -11,6 +11,9 @@ const initialState = {
     //for single select component
     selectedCategories: new Set(),
 
+    selectedColor: {label: "", key: "", quantity: ""},
+    selectedSize: {label: "", key: "", quantity: ""},
+
     colorTypes: [
         {label: "Blue", key: "blue", quantity: null},
         {label: "Red", key: "red", quantity: null},
@@ -27,9 +30,19 @@ const initialState = {
         {label: "2xl", key: "2xl", quantity: null},
     ],
 
-    allImages: new Set(), allCategories: new Set(), loading: false, error: "",
+    allImages: new Set(),
+    allCategories: new Set(),
+    loading: false, error: "",
 }
 
+
+export const setSelectedColorType = createAsyncThunk("setSelectedColorType", (e) => {
+    return e
+})
+
+export const setSelectedSizeType = createAsyncThunk("setSelectedSizeType", (e) => {
+    return e
+})
 export const clearColorTypes = createAsyncThunk("clearColorTypes", (e) => {
     return e
 })
@@ -37,6 +50,7 @@ export const clearColorTypes = createAsyncThunk("clearColorTypes", (e) => {
 export const clearSizeTypes = createAsyncThunk("clearSizeTypes", (e) => {
     return e
 })
+
 export const findAllImages = createAsyncThunk("findAllImages", () => {
     return getAllImages()
 })
@@ -188,6 +202,17 @@ export const globalSlice = createSlice({
             ]
         })
 
+        //set selected color
+        builder.addCase(setSelectedColorType.fulfilled, (state, action) => {
+            state.selectedColor = action.payload
+            state.loading = false
+        })
+
+        //set selected size
+        builder.addCase(setSelectedSizeType.fulfilled, (state, action) => {
+            state.selectedSize = action.payload
+            state.loading = false
+        })
     }
 })
 

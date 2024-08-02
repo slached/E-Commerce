@@ -14,6 +14,7 @@ export default function BreadCrumb(props) {
             if (value.length === 0) {
                 return {tag: "Home", ref: "/"}
             } else {
+                if (props.currentItemName) return {tag: _.capitalize(props.currentItemName), ref: props.currentItemName}
                 return {tag: _.capitalize(value), ref: value}
             }
         })
@@ -31,7 +32,7 @@ export default function BreadCrumb(props) {
             {breadCrumbItems.map(value => {
 
                 if (value.tag !== "Home") {
-                    return <BreadcrumbItem onPress={() => {
+                    return <BreadcrumbItem key={value} onPress={() => {
                         navigator({
                             pathname: `/${value.ref}`,
                             search: searchParams.get("language") && `?language=${searchParams.get("language")}`
@@ -40,7 +41,7 @@ export default function BreadCrumb(props) {
                     }}>{value.tag}
                     </BreadcrumbItem>
                 }else {
-                    return <BreadcrumbItem onPress={() => {
+                    return <BreadcrumbItem key={"home"} onPress={() => {
                         navigator({
                             pathname: `${value.ref}`,
                             search: searchParams.get("language") && `?language=${searchParams.get("language")}`

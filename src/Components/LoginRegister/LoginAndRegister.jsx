@@ -92,72 +92,77 @@ export default function LoginAndRegister(props) {
         }
     }
 
-    return (<div className={"font flex mt-[60px] mb-[50px]"}>
+    return (
+        <div className={"flex justify-center"}>
+            <div className={"font flex mt-[60px] mb-[50px] w-[1300px]"}>
+                <div className={"flex justify-start "}>
+                    <img className={"h-[600px] min-w-[600px]"} alt={"login-register"}
+                         src={loginRegisterImage}></img>
+                </div>
+                <div className={"grow"}></div>
+                <div className={"flex"}>
+                    <form className={"flex flex-col pl-[61px] pr-[60px] pt-[73px] pb-[92px] grow max-w-[605px]"}>
 
-        <div className={"flex-grow-[6] flex justify-start "}>
-            <img className={"h-[600px] min-w-[600px]"} alt={"login-register"}
-                 src={loginRegisterImage}></img>
+                        <div className={"flex flex-col gap-[24px] mb-[48px]"}>
+                            {props.type === "login" ?
+                                <h2 className={"font-semibold text-[36px] tracking-wide"}>Log in to Exclusive</h2> :
+                                <h2 className={"font-semibold text-[36px] tracking-wide"}>Create an account</h2>}
+                            <p className={"text-[16px]"}>Enter your details below</p>
+                        </div>
+
+                        <div className={"flex flex-col gap-y-[40px]"}>
+                            {props.type === "register" && <label className={"flex flex-col gap-[8px]"}>
+                                <input id={"name"} value={name} onChange={onChange} placeholder={"Name"}
+                                       type={"text"}
+                                       className={inputStyles}/>
+                                <hr className={"border-none h-[1px] bg-gray-400"}/>
+                            </label>}
+                            <label className={"flex flex-col gap-[8px]"}>
+                                <input id={"email"} value={email} onChange={onChange} placeholder={"Email address"}
+                                       type={"email"}
+                                       className={inputStyles}/>
+                                <hr className={"border-none h-[1px] bg-gray-400"}/>
+                            </label>
+                            <label className={"flex flex-col gap-[8px] mb-[40px]"}>
+                                <input id={"password"} value={password} onChange={onChange}
+                                       placeholder={"Password"} type={"password"} className={inputStyles}/>
+                                <hr className={"border-none h-[1px] bg-gray-400"}/>
+                            </label>
+
+                        </div>
+                        <div className={"flex flex-col"}>
+                            <div className={"flex justify-between mb-[30px] items-center"}>
+                                <button
+                                    onClick={() => {
+                                        props.type === "login" ? login() : register()
+                                    }}
+                                    style={props.type === "register" ? {flexGrow: 1} : null}
+                                    className={`bg-red-600 px-[38px] py-[16px] rounded-[4px] min-w-[170px]`}
+                                    type={"button"}>
+                                    {props.type === "login" ?
+                                        <p className={"ml-[22px] mr-[18px] text-white"}>Log In</p> :
+                                        <p className={"ml-[22px] mr-[18px] text-white"}>Create account</p>}
+                                </button>
+                                {props.type === "login" && <a href={""} className={"text-red-500"}>Forget Password?</a>}
+                            </div>
+                            <p className={"mb-[10px] text-red-500"}>{errMessage}</p>
+                            {props.type === "login" ?
+                                <p className={"text-start"}>I don’t have an account?
+                                    <Link reloadDocument className={"underline underline-offset-8 ml-[16px]"}
+                                          to={"/register"}>
+                                        Create account
+                                    </Link>
+                                </p> :
+                                <p className={"text-start"}>Already have account?
+                                    <Link reloadDocument className={"underline underline-offset-8 ml-[16px]"}
+                                          to={"/login"}>
+                                        Log in
+                                    </Link>
+                                </p>}
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-
-        <div className={"flex flex-grow-[4]"}>
-            <form className={"flex flex-col pl-[61px] pr-[60px] pt-[73px] pb-[92px] grow max-w-[605px]"}>
-
-                <div className={"flex flex-col gap-[24px] mb-[48px]"}>
-                    {props.type === "login" ?
-                        <h2 className={"font-semibold text-[36px] tracking-wide"}>Log in to Exclusive</h2> :
-                        <h2 className={"font-semibold text-[36px] tracking-wide"}>Create an account</h2>}
-                    <p className={"text-[16px]"}>Enter your details below</p>
-                </div>
-
-                <div className={"flex flex-col gap-y-[40px]"}>
-                    {props.type === "register" && <label className={"flex flex-col gap-[8px]"}>
-                        <input id={"name"} value={name} onChange={onChange} placeholder={"Name"}
-                               type={"text"}
-                               className={inputStyles}/>
-                        <hr className={"border-none h-[1px] bg-gray-400"}/>
-                    </label>}
-                    <label className={"flex flex-col gap-[8px]"}>
-                        <input id={"email"} value={email} onChange={onChange} placeholder={"Email address"}
-                               type={"email"}
-                               className={inputStyles}/>
-                        <hr className={"border-none h-[1px] bg-gray-400"}/>
-                    </label>
-                    <label className={"flex flex-col gap-[8px] mb-[40px]"}>
-                        <input id={"password"} value={password} onChange={onChange}
-                               placeholder={"Password"} type={"password"} className={inputStyles}/>
-                        <hr className={"border-none h-[1px] bg-gray-400"}/>
-                    </label>
-
-                </div>
-                <div className={"flex flex-col"}>
-                    <div className={"flex justify-between mb-[30px] items-center"}>
-                        <button
-                            onClick={() => {
-                                props.type === "login" ? login() : register()
-                            }}
-                            style={props.type === "register" ? {flexGrow: 1} : null}
-                            className={`bg-red-600 px-[38px] py-[16px] rounded-[4px] min-w-[170px]`}
-                            type={"button"}>
-                            {props.type === "login" ? <p className={"ml-[22px] mr-[18px] text-white"}>Log In</p> :
-                                <p className={"ml-[22px] mr-[18px] text-white"}>Create account</p>}
-                        </button>
-                        {props.type === "login" && <a href={""} className={"text-red-500"}>Forget Password?</a>}
-                    </div>
-                    <p className={"mb-[10px] text-red-500"}>{errMessage}</p>
-                    {props.type === "login" ?
-                        <p className={"text-start"}>I don’t have an account?
-                            <Link reloadDocument className={"underline underline-offset-8 ml-[16px]"} to={"/register"}>
-                                Create account
-                            </Link>
-                        </p> :
-                        <p className={"text-start"}>Already have account?
-                            <Link reloadDocument className={"underline underline-offset-8 ml-[16px]"} to={"/login"}>
-                                Log in
-                            </Link>
-                        </p>}
-                </div>
-            </form>
-        </div>
-
-    </div>);
+    );
 }

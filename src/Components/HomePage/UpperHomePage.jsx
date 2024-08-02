@@ -51,7 +51,7 @@ export default function UpperHomePage(props) {
 
                         return (<
                                 SwiperSlide>
-                                <Link to={value.href}><img alt={`image_${index}`}
+                                <Link to={value.href}><img alt={index.toString()}
                                                            src={value.image}/></Link>
                             </SwiperSlide>
                         )

@@ -15,8 +15,11 @@ import {getCartItems, getWishlistItems} from "../../redux/UserSlice";
 import {deleteFromWishlist} from "../../Services/ProductServices";
 import PreviewModal from "../HomePage/PreviewModal";
 import Star from "./Star";
+import {Link, useLocation, useSearchParams} from "react-router-dom";
 
 export default function ProductComp(props) {
+
+    const location = useLocation()
 
     const dispatch = useDispatch()
 
@@ -168,7 +171,11 @@ export default function ProductComp(props) {
                 </div>
                 {/* price, vote and stars field */}
                 <div className={"flex flex-col gap-[8px] items-start"}>
-                    <p className={"font-semibold cursor-pointer"}>{props.productAndImageObject.product.name}</p>
+                    <Link reloadDocument to={{
+                        pathname: `/${props.productAndImageObject.product._id}`,
+                        search: location.search
+                    }}
+                          className={"font-semibold cursor-pointer"}>{props.productAndImageObject.product.name}</Link>
                     {props.productAndImageObject.product.isDiscounted ?
                         <div className={"flex gap-[12px] font-semibold"}>
                             <p className={"text-[#DB4444]"}>${parseInt(props.productAndImageObject.product.price) * (100 - parseInt(props.productAndImageObject.product.discountPercentage)) / 100}</p>
