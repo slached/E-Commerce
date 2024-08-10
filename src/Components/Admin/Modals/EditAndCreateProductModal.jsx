@@ -44,6 +44,7 @@ export default function EditAndCreateProductModal(props) {
         setColorSwitch(false)
         setSizeSwitch(false)
 
+
         //if edit so set initial values
         if (props.type === "edit") {
             setName(props.pAndI?.product?.name)
@@ -52,7 +53,7 @@ export default function EditAndCreateProductModal(props) {
             setVotes(props.pAndI?.product?.votes)
             setStars(props.pAndI?.product?.stars)
             setDiscountPercentage(props.pAndI?.product?.discountPercentage)
-            setDescription(props.pAndI?.product?.description)
+            props.pAndI?.product?.description ? setDescription(props.pAndI?.product?.description) : setDescription("")
             props.pAndI?.product?.colorOptions.length !== 0 && dispatch(setColorTypes(props.pAndI?.product?.colorOptions))
             props.pAndI?.product?.sizeOptions.length !== 0 && dispatch(setSizeTypes(props.pAndI?.product?.sizeOptions))
 
@@ -66,13 +67,17 @@ export default function EditAndCreateProductModal(props) {
             dispatch(setSelectedCategories(new Set()))
             setName("")
             setPrice("")
+            setDescription("")
             setQuantity("")
             setVotes("")
             setStars("")
             setDiscountPercentage("")
-            setDescription("")
         }
     }, [props])
+
+    useEffect(() => {
+        console.log(props.pAndI.product)
+    }, [props.pAndI.product]);
 
     const onSubmit = async () => {
 

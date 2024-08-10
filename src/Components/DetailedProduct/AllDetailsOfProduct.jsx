@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import Star from "../Global/Star";
 import ColorOptions from "./ColorOptions";
 import SizeOptions from "./SizeOptions";
@@ -8,16 +8,23 @@ import {useDispatch, useSelector} from "react-redux";
 import {baseUrl} from "../../static/baseUrl";
 import DeliveryFooter from "./DeliveryFooter";
 import {useNavigate} from "react-router-dom";
-import {getWishlistItems} from "../../redux/UserSlice";
+import {getCartItems, getWishlistItems} from "../../redux/UserSlice";
 
 import FavoriteBubbleEmpty from "../../static/Images/not-in-wishlist.svg";
 import FavoriteBubbleFull from "../../static/Images/in-wishlist.svg";
+import {addToCart} from "../../Services/UserServices";
+import {CircularProgress} from "@nextui-org/react";
 
 export default function AllDetailsOfProduct(props) {
-    const [quantity, setQuantity] = React.useState(1);
+    const [quantity, setQuantity] = useState(1);
     const {wishlist} = useSelector(selector => selector.userReducer)
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
+    const {selectedColor, selectedSize} = useSelector(selector => selector.globalReducer);
+
+    const [isLoading, setIsLoading] = useState(false)
+    const [isFinished, setIsFinished] = useState(false)
 
     const wishListHandler = async () => {
         const request = await fetch(`${baseUrl}/wishlist/insertAndExtract`, {
@@ -39,9 +46,6 @@ export default function AllDetailsOfProduct(props) {
             }))
         }
     }
-    const buyButtonHandler = async () => {
-
-    }
 
     return (
         <div className={"flex flex-col gap-[16px]"}>
@@ -62,7 +66,7 @@ export default function AllDetailsOfProduct(props) {
                 <div className={"flex"}>
                     <div
                         onClick={() => {
-                            setQuantity(prevState => prevState - 1 > 0 ? prevState - 1 : 0)
+                            setQuantity(prevState => prevState - 1 > 1 ? prevState - 1 : 1)
                         }}
                         className={"py-[15px] px-[11px] border-2 border-gray-400 rounded-l-md cursor-pointer flex justify-center items-center"}>
                         <img alt={"mines"} src={MinesIcon} className={"min-w-[16px]"}/>
@@ -77,9 +81,33 @@ export default function AllDetailsOfProduct(props) {
                     </div>
                 </div>
                 {/*buy now button*/}
-                <button onClick={() => buyButtonHandler()}
-                        className={"bg-[#DB4444] rounded-md py-[10px] px-[48px] text-white"}>Buy Now
-                </button>
+                {isLoading ? <button className={"bg-[#DB4444] rounded-md py-[10px] px-[48px] text-white"}>
+                        <CircularProgress size={"sm"} color="default" aria-label="Loading..."/>
+                    </button> :
+                    isFinished ?
+                        <button className={"bg-black rounded-md py-[10px] px-[48px] text-white text-[12px]"}>Item Added
+                            to
+                            cart</button>
+                        : <button onClick={() => {
+                            setIsLoading(true)
+                            setIsFinished(false)
+                            addToCart({
+                                product: props.product,
+                                increaseQuantity: quantity,
+                                colorOption: selectedColor.label.length !== 0 ? selectedColor : null,
+                                sizeOption: selectedSize.label.length !== 0 ? selectedSize : null,
+                            }).then(res => {
+                                setIsLoading(false)
+                                setIsFinished(true)
+                                //reset add to cart button
+                                setTimeout(() => setIsFinished(false), 2000)
+                                dispatch(getCartItems({
+                                    credentials: "include",
+                                    headers: {Cookie: document.cookie}
+                                }))
+                            }).catch(err => err)
+                        }} className={"bg-[#DB4444] rounded-md py-[10px] px-[48px] text-white"}>Buy Now</button>}
+                {/*wishlist button*/}
                 <img onClick={() => wishListHandler()} alt={"wishlist"}
                      src={wishlist?.find(e => e?.productId === props.product._id) === undefined ? FavoriteBubbleEmpty : FavoriteBubbleFull}
                      className={"border-2 rounded-md border-gray-400 px-[5px] cursor-pointer"}/>

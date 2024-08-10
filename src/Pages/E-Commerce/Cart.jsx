@@ -8,9 +8,12 @@ import {getCartItems} from "../../redux/UserSlice";
 import Button from "../../Components/Global/Button";
 import ButtonSecond from "../../Components/Global/ButtonSecond";
 import CouponCodeTextField from "../../Components/Global/CouponCodeTextField";
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
+import {GetColorName} from 'hex-color-to-color-name';
 
 export default function Cart(props) {
+
+    const location = useLocation()
 
     const {cart} = useSelector(selector => selector.userReducer)
 
@@ -42,11 +45,11 @@ export default function Cart(props) {
         })
     }, [cart])
 
+
     return (
         <div className={"flex justify-center"}>
             <div className={"flex flex-col py-[80px] px-[135px] "}>
                 <BreadCrumb/>
-
                 {cart?.length !== 0 ?
                     <div className={"mt-[80px] flex flex-col gap-[40px]"}>
                         <div className={"gap-[40px] flex flex-col min-w-[600px]"}>
@@ -82,7 +85,11 @@ export default function Cart(props) {
                                             </div>
                                         }
                                         <img className={"w-[45px] "} alt={"product image"} src={value.url}/>
-                                        <p>{value.product.name}</p>
+                                        <div className={"flex flex-col"}>
+                                            <Link to={{pathname:`/${value.product._id}`,search:location.search}}>{value.product.name}</Link>
+                                            {(value.colorOption || value.sizeOption) &&
+                                                <p className={"text-[12px] font-semibold"}>{value?.sizeOption?.label.toUpperCase()} | {GetColorName(value?.colorOption?.label)}</p>}
+                                        </div>
                                     </div>
                                     <p className={"justify-self-center"}>${value.product.price}</p>
                                     <div className={"justify-self-center"}>
@@ -128,7 +135,6 @@ export default function Cart(props) {
                             </div>
                         </div>
                     </div>
-
                     :
                     <div>
                         <p className={"text-[30px] mb-[230px]"}>There is no item to shown in your cart.</p>

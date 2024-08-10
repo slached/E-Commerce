@@ -32,7 +32,12 @@ export const addToCart = async (e) => {
             'Content-Type': 'application/json',
             'Accept': '*/*'
         },
-        body: JSON.stringify({...e.product, increaseQuantity: e?.increaseQuantity})
+        body: JSON.stringify({
+            ...e.product,
+            increaseQuantity: e?.increaseQuantity,
+            colorOption: e?.colorOption,
+            sizeOption: e?.sizeOption
+        })
 
     }).then(res => res.json())
         .then(res => {

@@ -15,7 +15,7 @@ import {getCartItems, getWishlistItems} from "../../redux/UserSlice";
 import {deleteFromWishlist} from "../../Services/ProductServices";
 import PreviewModal from "../HomePage/PreviewModal";
 import Star from "./Star";
-import {Link, useLocation, useSearchParams} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 
 export default function ProductComp(props) {
 
