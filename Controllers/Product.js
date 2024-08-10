@@ -2,8 +2,7 @@ const Product = require('../Models/Product.js')
 const Image = require('../Models/Image.js')
 const Category = require('../Models/Category.js')
 const User = require('../Models/User.js')
-
-const _ = require('lodash')
+require('lodash');
 
 const responseMergedWithImageURI = async (products) => {
 
@@ -35,11 +34,16 @@ const createProduct = async (req, res) => {
 
             if (!req.body.isDiscounted && (req.body.discountPercentage !== undefined || req.body.discountPercentage)) newProduct.isDiscounted = true
 
+            //if body discountPercentage is blank or null than set discount percentage null and set isDiscounted to false
+            if (req.body.discountPercentage === "" || req.body.discountPercentage === null) {
+                newProduct.discountPercentage = null
+                newProduct.isDiscounted = false
+            }
+
             await newProduct.save();
             res.status(200).json({message: "Product saved", status: 200})
         }
     } catch (err) {
-        console.log(err)
         res.status(200).json({message: err.message, status: 400})
     }
 }
@@ -47,7 +51,8 @@ const createProduct = async (req, res) => {
 const getAllProducts = async (req, res) => {
 
     try {
-        const products = await Product.find()
+        const {orderBy} = req.query
+        const products = await Product.find().sort(`-${orderBy}`)
         res.status(200).json({products: products, status: 200})
     } catch (err) {
         res.status(400).json({message: err.message, status: 400})
@@ -190,7 +195,13 @@ const getOneProduct = async (req, res) => {
         const id = req.params.id
         const product = await Product.findById(id)
 
-        res.status(200).json({message: product, status: 200})
+        const images = []
+        for (const imageId of product.imageId) {
+            const image = await Image.findById(imageId, {name: 1, url: 1, _id: 1})
+            images.push(image)
+        }
+
+        res.status(200).json({product: product, images: images, status: 200})
     } catch (err) {
         res.status(200).json({err: err.message, status: 400})
 
