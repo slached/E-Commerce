@@ -7,11 +7,11 @@ const cors = require('cors')
 const port = process.env.PORT || 5000
 
 //db connection
-const dbConnection = require('./MiddleWares/DbConnection.js')
-app.use(dbConnection)
-
-app.listen(port)
-console.log(`app listening on port ${port}`)
+const connect = require('./server/config/database.js')
+connect().then(() => {
+    app.listen(port)
+    console.log(`app listening on port ${port}`)
+})
 
 const corsOptions = {
     credentials: true,
@@ -25,12 +25,12 @@ app.use(cors(corsOptions))
 app.use(cookieParser())
 
 //router imports
-const userRouter = require('./Routers/User.js')
-const productRouter = require('./Routers/Product.js')
-const imageRouter = require('./Routers/Image.js')
-const cartRouter = require('./Routers/Cart.js')
-const wishlistRouter = require('./Routers/Wishlist.js')
-const categoryRouter = require('./Routers/Category.js')
+const userRouter = require('./server/Routers/User.js')
+const productRouter = require('./server/Routers/Product.js')
+const imageRouter = require('./server/Routers/Image.js')
+const cartRouter = require('./server/Routers/Cart.js')
+const wishlistRouter = require('./server/Routers/Wishlist.js')
+const categoryRouter = require('./server/Routers/Category.js')
 
 //router connections
 app.use(process.env.BASE_PATH, userRouter)

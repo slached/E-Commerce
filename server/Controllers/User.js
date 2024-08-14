@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const salt = 10
 const jwt = require('jsonwebtoken')
 const {isValidObjectId} = require("mongoose");
+const APIError = require("../utils/ErrorHandler");
 
 const getAllUsers = async (req, res) => {
     const users = await User.find()
