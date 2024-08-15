@@ -39,3 +39,11 @@ app.use(`${process.env.BASE_PATH}/product`, productRouter)
 app.use(`${process.env.BASE_PATH}/image`, imageRouter)
 app.use(`${process.env.BASE_PATH}/wishlist`, wishlistRouter)
 app.use(`${process.env.BASE_PATH}/category`, categoryRouter)
+
+const errorHandler = require('./server/MiddleWares/ErrorHandler.js')
+//error handler mw
+app.use(errorHandler)
+
+const notFounded = require('./server/MiddleWares/notFound.js')
+//route not founded
+app.use(notFounded)

@@ -3,14 +3,16 @@ const bcrypt = require('bcrypt')
 const salt = 10
 const jwt = require('jsonwebtoken')
 const {isValidObjectId} = require("mongoose");
-const APIError = require("../utils/ErrorHandler");
+const APIError = require('../utils/Error');
+const AsyncWrapper = require('../MiddleWares/AsyncWrapper')
 
-const getAllUsers = async (req, res) => {
+const getAllUsers = AsyncWrapper(async (req, res, next) => {
     const users = await User.find()
-    users ? res.status(200).json(users) : res.status(200).json({message: "There is no any user."})
-}
+    if (users) res.status(200).json(users)
+    else throw new APIError("User Could not be found", "This problem might be cause if you don't have any user", 404)
+})
 
-const register = async (req, res) => {
+const register = AsyncWrapper(async (req, res) => {
     const newUser = new User(req.body)
     await bcrypt.hash(newUser.password, salt, async (err, hash) => {
         newUser.password = hash
@@ -19,11 +21,10 @@ const register = async (req, res) => {
                 res.status(200).json({message: `${newUser.email} is created successfully.`, status: 200})
             })
             .catch(err => {
-                res.status(200).json({err: err.message, status: 400})
+                throw new APIError(err.message, err.message, err.status)
             })
     })
-
-}
+})
 
 const login = async (req, res) => {
 
@@ -65,88 +66,83 @@ const login = async (req, res) => {
     }
 }
 
-const logout = async (req, res) => {
+const logout = AsyncWrapper(async (req, res) => {
     if (req.cookies.auth) {
         res.clearCookie("auth")
         res.status(200).json({message: "Logout successfully."})
     } else {
-        res.status(200).json({message: "You need to log in before log out.", status: 400})
+        throw new APIError("Logout failed!", "Something went wrong while logging out", 401)
     }
-}
+})
 
-const getUserMe = async (req, res) => {
+const getUserMe = AsyncWrapper(async (req, res) => {
+    const userId = jwt.verify(req.cookies.auth, process.env.JWT_SECRET).id
+    const user = await User.findById(userId)
+    if (user) {
+        res.status(200).json({
+            user: user,
+            status: 200
+        })
+    } else throw new APIError("User Could not be found", "This problem might be cause if you don't have any user", 404)
+})
 
-    try {
-        const userId = jwt.verify(req.cookies.auth, process.env.JWT_SECRET).id
-        const user = await User.findById(userId)
-        res.status(200).json({user: user, status: 200})
+const update = AsyncWrapper(async (req, res) => {
 
-    } catch (err) {
-        res.status(200).json({err: err, status: 400})
-    }
-
-}
-
-const update = async (req, res) => {
-
-    try {
-        //this is admin update
-        const body = req.body
-        if (body.password) {
-            await bcrypt.hash(body.password, salt, async (err, hash) => {
-                await User.findByIdAndUpdate({_id: req.params.id}, {password: hash})
-                res.status(200).json({message: "User updated successfully", status: 200})
+    //this is admin update
+    const body = req.body
+    if (body.password) {
+        await bcrypt.hash(body.password, salt, async (err, hash) => {
+            await User.findByIdAndUpdate({_id: req.params.id}, {password: hash}, {
+                runValidators: true,
+                overwrite: true,
+                new: true,
             })
-        } else {
-            await User.findByIdAndUpdate({_id: req.params.id}, body)
             res.status(200).json({message: "User updated successfully", status: 200})
-        }
-
-    } catch (err) {
-        res.status(200).json({err: err.message, status: 400})
+        })
+    } else {
+        await User.findByIdAndUpdate({_id: req.params.id}, body, {
+            runValidators: true,
+            overwrite: true,
+            new: true,
+        })
+        res.status(200).json({message: "User updated successfully", status: 200})
     }
-}
+})
 
-const updatePassword = async (req, res) => {
+const updatePassword = AsyncWrapper(async (req, res) => {
 
-    try {
-        const body = req.body
-        const user = await User.findById(req.params.id)
+    const body = req.body
+    const user = await User.findById(req.params.id)
 
-        if (body.currentPassword !== undefined && body?.currentPassword.length !== 0) {
+    if (body.currentPassword !== undefined && body?.currentPassword.length !== 0) {
 
-            const isPassCorrect = await bcrypt.compare(body.currentPassword, user.password)
+        const isPassCorrect = await bcrypt.compare(body.currentPassword, user.password)
 
-            if (isPassCorrect) {
-                //detect differences
-                for (const [key, value] of Object.entries(body)) {
-                    if (value.length !== 0) {
-                        if (key === "newPassword") {
-                            await bcrypt.hash(value, salt, async (err, hash) => {
-                                await User.findByIdAndUpdate({_id: req.params.id}, {password: hash})
-                            })
-                        } else await User.findByIdAndUpdate({_id: req.params.id}, {[key]: value})
-                    }
-                }
-            } else {
-                return res.status(200).json({err: "Password is not correct", status: 400})
-
-            }
-        } else {
+        if (isPassCorrect) {
             //detect differences
             for (const [key, value] of Object.entries(body)) {
                 if (value.length !== 0) {
-                    await User.findByIdAndUpdate({_id: req.params.id}, {[key]: value})
+                    if (key === "newPassword") {
+                        await bcrypt.hash(value, salt, async (err, hash) => {
+                            await User.findByIdAndUpdate({_id: req.params.id}, {password: hash})
+                        })
+                    } else await User.findByIdAndUpdate({_id: req.params.id}, {[key]: value})
                 }
             }
+        } else {
+            return res.status(200).json({err: "Password is not correct", status: 400})
+
         }
-
-        res.status(200).json({message: "User updated successfully", status: 200})
-
-    } catch (err) {
-        res.status(200).json({err: err.message, status: 400})
+    } else {
+        //detect differences
+        for (const [key, value] of Object.entries(body)) {
+            if (value.length !== 0) {
+                await User.findByIdAndUpdate({_id: req.params.id}, {[key]: value})
+            }
+        }
     }
 
-}
+    res.status(200).json({message: "User updated successfully", status: 200})
+})
 
 module.exports = {getAllUsers, register, login, logout, getUserMe, update, updatePassword}

@@ -1,8 +1,7 @@
 const mongoose = require('mongoose')
 
 const emailRegExp = (email) => {
-    const emailRegEx = new RegExp("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")
-    return emailRegEx.test(email)
+    return new RegExp("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$").test(email)
 }
 
 const userSchema = new mongoose.Schema({
