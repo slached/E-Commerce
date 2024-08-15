@@ -33,7 +33,7 @@ export default function HeaderNavigator(props) {
                         //this if prevent render sign up navigation from header if any user already logged in
                         return null
                     } else {
-                        return <Link key={i} onClick={() => setSelectedField(field.tag.toLowerCase())}
+                        return <Link reloadDocument key={i} onClick={() => setSelectedField(field.tag.toLowerCase())}
                                      style={selectedField === field.tag.toLowerCase() ? {
                                          textDecoration: "underline",
                                          textUnderlineOffset: "4px"
