@@ -48,11 +48,6 @@ The `E-Commerce` repository is a full-stack e-commerce application designed to d
 - **Cart Functionality**: Users can add items to their cart, view the cart contents, update quantities, and proceed to checkout.
 - **Checkout Process**: Handles order placement, including calculating totals, managing shipping information, and processing payments.
 
-### Deployment
-
-- **Docker**: Includes Docker configurations for containerizing the application, making it easier to deploy and manage across different environments.
-- **CI/CD**: The repository might include continuous integration and deployment scripts to automate testing and deployment processes.
-
 ## How to Use
 
 ### Clone the Repository
