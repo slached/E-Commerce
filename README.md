@@ -33,6 +33,7 @@ The `E-Commerce` repository is a full-stack e-commerce application designed to d
 - **Express.js**: A web application framework for Node.js that simplifies the creation of server routes and handling of HTTP requests.
 - **MongoDB**: The database used for storing product details, user information, and order history. It’s a NoSQL database that allows for flexible data modeling.
 - **Mongoose**: An ODM (Object Data Modeling) library for MongoDB and Node.js, which provides a straightforward way to interact with the database using schemas and models.
+- **Redis**: Used for caching frequently accessed data to improve application performance and reduce database load.
 
 ### Authentication
 
