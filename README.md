@@ -1,17 +1,3 @@
-I'm working on new fullstack e commerce website and
-here's all technologies that i'm working with;
-
-### Check The Branches ...
-
-- Express
-- Mognodb
-- React
-- React Router
-- Redux Toolkit
-- Tailwind
-- NextUI
-- Redis
-
 # E-Commerce Application
 
 ## Overview
