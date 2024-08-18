@@ -3,9 +3,9 @@ const Image = require('../Models/Image.js')
 const Category = require('../Models/Category.js')
 const User = require('../Models/User.js')
 require('lodash');
-const getOrSetCache = require('../MiddleWares/getOrSetCache')
+const getOrSetCache = require('../helpers/getOrSetCache')
 
-const AsyncWrapper = require("../MiddleWares/AsyncWrapper")
+const AsyncWrapper = require("../helpers/AsyncWrapper")
 
 const responseMergedWithImageURI = async (products) => {
 

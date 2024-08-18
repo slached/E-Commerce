@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const wishlistController = require("../Controllers/Wishlist.js");
-const authMiddleware = require("../MiddleWares/Auth");
+const authMiddleware = require("../middlewares/Auth");
 
 router.get("/getAll", authMiddleware.isUser, wishlistController.getWishlist)
 router.get("/getDetailed", authMiddleware.isUser, wishlistController.getDetailedWishlist)

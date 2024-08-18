@@ -3,7 +3,7 @@ const {redisClient, DEFAULT_EXPIRATION} = require('../config/redis')
 const getOrSetCache = (key, cb) => {
     return new Promise((resolve, reject) => {
         redisClient.get(key, async (err, data) => {
-            // if there is an error occured
+            // if there is an error occurred
             if (err) return reject(err);
             // if key in cache
             if (data) return resolve(JSON.parse(data))

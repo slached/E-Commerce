@@ -2,8 +2,8 @@ const express = require('express')
 const router = express.Router()
 const imageController = require('../Controllers/Image.js')
 //middlewares
-const multerMiddleware = require('../MiddleWares/Multer.js')
-const authMiddleware = require('../MiddleWares/Auth.js')
+const multerMiddleware = require('../middlewares/Multer.js')
+const authMiddleware = require('../middlewares/Auth.js')
 
 router.delete('/delete/:id', authMiddleware.isAdmin, imageController.deleteImage)
 

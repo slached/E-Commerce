@@ -48,10 +48,10 @@ app.use(`${process.env.BASE_PATH}/image`, imageRouter)
 app.use(`${process.env.BASE_PATH}/wishlist`, wishlistRouter)
 app.use(`${process.env.BASE_PATH}/category`, categoryRouter)
 
-const errorHandler = require('./server/MiddleWares/ErrorHandler.js')
+const errorHandler = require('./server/middlewares/ErrorHandler.js')
 //error handler mw
 app.use(errorHandler)
 
-const notFounded = require('./server/MiddleWares/notFound.js')
+const notFounded = require('./server/middlewares/notFound.js')
 //route not founded
 app.use(notFounded)

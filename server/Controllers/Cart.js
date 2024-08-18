@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../Models/User");
 const Product = require("../Models/Product");
 const Image = require("../Models/Image");
-const AsyncWrapper = require("../MiddleWares/AsyncWrapper")
+const AsyncWrapper = require("../helpers/AsyncWrapper")
 
 const getCart = AsyncWrapper(async (req, res) => {
 

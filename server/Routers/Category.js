@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const authMiddleware = require('../MiddleWares/auth.js')
+const authMiddleware = require('../middlewares/auth.js')
 
 const categoryController = require('../Controllers/Category.js')
 

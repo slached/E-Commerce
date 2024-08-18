@@ -1,6 +1,6 @@
 const Image = require('../Models/Image.js')
 const fs = require('fs');
-const AsyncWrapper = require("../MiddleWares/AsyncWrapper")
+const AsyncWrapper = require("../helpers/AsyncWrapper")
 
 const createImage = AsyncWrapper(async (req, res) => {
     //image comes with type buffer;

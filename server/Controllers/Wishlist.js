@@ -3,7 +3,7 @@ const User = require("../Models/User");
 const Product = require("../Models/Product");
 const Image = require("../Models/Image");
 
-const AsyncWrapper = require("../MiddleWares/AsyncWrapper")
+const AsyncWrapper = require("../helpers/AsyncWrapper")
 
 const insertAndExtract = AsyncWrapper(async (req, res) => {
 

@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const productController = require('../Controllers/Product.js')
 //middlewares
-const authMiddleware = require('../MiddleWares/Auth.js')
+const authMiddleware = require('../middlewares/Auth.js')
 
 router.get('/getAll', productController.getAllProducts)
 router.get('/getAllWithImage', productController.getAllProductsWithImage)

@@ -4,7 +4,7 @@ const salt = 10
 const jwt = require('jsonwebtoken')
 const {isValidObjectId} = require("mongoose");
 const APIError = require('../utils/Error');
-const AsyncWrapper = require('../MiddleWares/AsyncWrapper')
+const AsyncWrapper = require('../helpers/AsyncWrapper')
 
 const getAllUsers = AsyncWrapper(async (req, res, next) => {
     const users = await User.find()

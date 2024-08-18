@@ -1,6 +1,6 @@
 const Image = require("../Models/Image");
 const Category = require("../Models/Category");
-const AsyncWrapper = require("../MiddleWares/AsyncWrapper")
+const AsyncWrapper = require("../helpers/AsyncWrapper")
 
 const responseMergedWithImageURI = async (categories) => {
     const categoryItemWithImageURL = []
