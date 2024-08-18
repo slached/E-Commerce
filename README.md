@@ -10,5 +10,6 @@ here's all technologies that i using;
 - Redux Toolkit
 - Tailwind
 - NextUI
+- Redis
 
 On dev...
