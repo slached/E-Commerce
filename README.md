@@ -49,7 +49,11 @@ The `E-Commerce` repository is a full-stack e-commerce application designed to d
 - **Cart Functionality**: Users can add items to their cart, view the cart contents, update quantities, and proceed to checkout.
 - **Checkout Process**: Handles order placement, including calculating totals, managing shipping information, and processing payments.
 
-## How to Use
+###
+## Additional Features
+- **Search Functionality**: Users can search for products based on keywords or categories.
+- **Order History**: Users can view their past orders and track the status of current orders.
+- **Admin Panel**: An administrative interface for managing products, users, and orders. The admin panel allows for tasks such as product management, user oversight, and order processing.
 
 ### Clone the Repository
 
