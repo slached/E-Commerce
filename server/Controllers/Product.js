@@ -3,6 +3,7 @@ const Image = require('../Models/Image.js')
 const Category = require('../Models/Category.js')
 const User = require('../Models/User.js')
 require('lodash');
+const getOrSetCache = require('../MiddleWares/getOrSetCache')
 
 const AsyncWrapper = require("../MiddleWares/AsyncWrapper")
 
@@ -75,8 +76,12 @@ const getAllProductsWithImage = AsyncWrapper(async (req, res) => {
 
         products = await Product.find({}).limit(quantityOfShownProduct).skip(search * quantityOfShownProduct)
 
+        const result = await getOrSetCache("productWithImage", async () => {
+            return await responseMergedWithImageURI(products)
+        })
+
         const resultObject = {
-            count: count, next: next, previous: prev, results: await responseMergedWithImageURI(products)
+            count: count, next: next, previous: prev, results: result
         }
 
         return res.status(200).json({...resultObject, status: 200})
@@ -87,7 +92,11 @@ const getAllProductsWithImage = AsyncWrapper(async (req, res) => {
         products = await Product.find({categoryId: {$in: category._id.toString()}})
     }
 
-    res.status(200).json({products: await responseMergedWithImageURI(products), status: 200})
+    const result = await getOrSetCache("productWithImage", async () => {
+        return await responseMergedWithImageURI(products)
+    })
+
+    res.status(200).json({products: result, status: 200})
 
 })
 

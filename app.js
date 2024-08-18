@@ -5,12 +5,20 @@ const app = express()
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const port = process.env.PORT || 5000
+const {initializeRedis} = require('./server/config/redis')
+require('colors')
 
 //db connection
 const connect = require('./server/config/database.js')
 connect().then(() => {
-    app.listen(port)
-    console.log(`app listening on port ${port}`)
+    // first connect to the db
+    // than run server
+    app.listen(port, () => {
+        console.log(`app listening on port ${port}`)
+        initializeRedis.then(res => {
+            console.log(res.bold.yellow.underline)
+        })
+    })
 })
 
 const corsOptions = {
